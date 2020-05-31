@@ -122,7 +122,6 @@ function fep_include_require_files() {
 		$fep_files['admin-pages'] 		= FEP_PLUGIN_DIR . 'admin/class-fep-admin-pages.php';
 		$fep_files['settings'] 			= FEP_PLUGIN_DIR . 'admin/class-fep-admin-settings.php';
 		$fep_files['update'] 			= FEP_PLUGIN_DIR . 'admin/class-fep-update.php';
-		$fep_files['pro-info'] 			= FEP_PLUGIN_DIR . 'admin/class-fep-pro-info.php';
 	}
 	$fep_files = apply_filters( 'fep_include_files', $fep_files );
 	foreach ( $fep_files as $fep_file ) {
