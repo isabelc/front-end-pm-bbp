@@ -2,10 +2,10 @@
 Contributors: shamim51
 Tags: message,messaging,contact form,chat,private message,contact,pm,plugin,shortcode,email,mail,secure contact form
 Donate link: https://www.shamimsplugins.com/products/front-end-pm-pro/?utm_campaign=wordpress&utm_source=readme_pro&utm_medium=donate
-Requires at least: 4.4
-Tested up to: 5.4
-Requires PHP: 5.4
-Stable tag: 11.2.3
+Requires at least: 4.6
+Tested up to: 5.4.1
+Requires PHP: 7
+Stable tag: 1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
