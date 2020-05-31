@@ -1,4 +1,4 @@
-=== Front End PM ===
+=== Front End PM Mod ===
 Contributors: shamim51
 Tags: message,messaging,contact form,chat,private message,contact,pm,plugin,shortcode,email,mail,secure contact form
 Donate link: https://www.shamimsplugins.com/products/front-end-pm-pro/?utm_campaign=wordpress&utm_source=readme_pro&utm_medium=donate
