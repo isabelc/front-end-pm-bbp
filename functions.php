@@ -1704,3 +1704,7 @@ function fep_recursive_remove_directory( $directory ) {
 	}
 	rmdir( $directory );
 }
+function fep_get_send_message_link($user_nicename) {
+	if(empty($user_nicename)) return;
+	return '<a href="' . fep_query_url( 'newmessage', array( 'fep_to' => $user_nicename, 'message_title' => '' ) ) . '">Send Message</a>';
+}
