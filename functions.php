@@ -456,7 +456,7 @@ function fep_get_new_message_button( $args = array() ) {
 		'class'			=> 'fep-font-red',
 	) );
 	$args['class'] = fep_sanitize_html_class( $args['class'] );
-	$new           = number_format_i18n( fep_get_new_message_number() );
+	$new           = fep_get_new_message_number();
 	if ( empty( $args['ajax'] ) ) {
 		if ( ! $new && $args['hide_if_zero'] ) {
 			return '';
