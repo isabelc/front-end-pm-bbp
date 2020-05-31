@@ -193,11 +193,6 @@ function fep_update_user_option( $option, $value = '', $userid = '', $section = 
 	return update_user_meta( $userid, $section, wp_parse_args( $option, $options ) );
 }
 
-function fep_translation() {
-	// SETUP TEXT DOMAIN FOR TRANSLATIONS
-	load_plugin_textdomain( 'front-end-pm', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
-}
-
 function fep_enqueue_scripts() {
 	wp_register_style( 'fep-common-style', FEP_PLUGIN_URL . 'assets/css/common-style.css', array(), FEP_PLUGIN_VERSION );
 	wp_register_style( 'fep-style', FEP_PLUGIN_URL . 'assets/css/style.css', array(), FEP_PLUGIN_VERSION );
