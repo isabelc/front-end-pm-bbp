@@ -18,7 +18,6 @@ class Fep_Shortcodes {
 		add_shortcode( 'front-end-pm', array( fep_main_class::init(), 'main_shortcode_output' ) ); //for FRONT END PM
 		add_shortcode( 'fep_shortcode_new_message_count', array( $this, 'new_message_count' ) );
 		add_shortcode( 'fep_shortcode_new_announcement_count', array( $this, 'new_announcement_count' ) );
-		add_shortcode( 'fep_shortcode_message_to', array( $this, 'message_to' ) );
 		add_shortcode( 'fep_shortcode_new_message_form', array( $this, 'new_message_form' ) );
 	}
 
@@ -42,41 +41,6 @@ class Fep_Shortcodes {
 			'class'			=> 'fep-font-red',
 		), $atts, $tag );
 		return fep_get_new_announcement_button( $atts );
-	}
-
-	function message_to( $atts, $content = null, $tag = '' ) {
-		$atts = shortcode_atts( array(
-			'to'		=> '{current-post-author}',
-			'subject'	=> '{current-post-title}',
-			'text'		=> __( 'Contact','front-end-pm' ),
-			'class'		=> 'fep-button',
-			'fep_mr_to'	=> false, // Comma separated list of user ids (used in PRO version)
-		), $atts, $tag );
-		if ( '{current-post-author}' == $atts['to'] ) {
-			$atts['to'] = get_the_author_meta( 'user_nicename' );
-		} elseif ( '{current-author}' == $atts['to'] ) {
-			if ( $nicename = fep_get_userdata( get_query_var( 'author_name' ), 'user_nicename' ) ) {
-				$atts['to'] = $nicename;
-			} elseif ( $nicename = fep_get_userdata( get_query_var( 'author' ), 'user_nicename', 'id' ) ) {
-				$atts['to'] = $nicename;
-			}
-			unset( $nicename );
-		} elseif ( '{um-current-author}' == $atts['to'] && function_exists( 'um_profile_id' ) ) {
-			$atts['to'] = fep_get_userdata( um_profile_id(), 'user_nicename', 'id' );
-		} else {
-			$atts['to'] = esc_html( $atts['to'] );
-		}
-		if ( false !== strpos( $atts['subject'], '{current-post-title}' ) ) {
-			$atts['subject'] = rawurlencode( str_replace( '{current-post-title}', get_the_title(), $atts['subject'] ) );
-		} elseif ( ! empty( $atts['subject'] ) ) {
-			$atts['subject'] = rawurlencode( $atts['subject'] );
-		} else {
-			$atts['subject'] = false;
-		}
-		if ( empty( $atts['to'] ) && empty( $atts['fep_mr_to'] ) ) {
-			return '';
-		}
-		return '<a href="' . fep_query_url( 'newmessage', array( 'fep_to' => $atts['to'], 'message_title' => $atts['subject'], 'fep_mr_to' => $atts['fep_mr_to'] ) ) . '" class="' . esc_attr( $atts['class'] ) . '">' . esc_html( $atts['text'] ) . '</a>';
 	}
 
 	function new_message_form( $atts, $content = null, $tag = '' ) {
