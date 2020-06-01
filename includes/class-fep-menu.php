@@ -41,16 +41,16 @@ class Fep_Menu {
 	public function get_menu() {
 		$menu = array(
 			'message_box' => array(
-				'title'    => sprintf( __( 'Message Box%s', 'front-end-pm' ), fep_get_new_message_button() ),
+				'title'    => sprintf( 'Message Box%s', fep_get_new_message_button() ),
 				'action'   => 'messagebox',
-				'priority' => 10,
+				'priority' => 5,
 			),
 		);
 		if ( fep_current_user_can( 'send_new_message' ) ) {
 			$menu['newmessage'] = array(
-				'title'    => __( 'New Message', 'front-end-pm' ),
+				'title'    => 'New Message',
 				'action'   => 'newmessage',
-				'priority' => 5,
+				'priority' => 10,
 			);
 		}
 
@@ -68,7 +68,7 @@ class Fep_Menu {
 			);
 			$menu[ $key ] = wp_parse_args( $tab, $defaults );
 		}
-		uasort( $menu, 'fep_sort_by_priority' );
+		uasort( $menu, 'fep_sort_by_priority' );// @test remove
 		return $menu;
 	}
 
