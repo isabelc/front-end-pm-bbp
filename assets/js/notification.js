@@ -1,20 +1,31 @@
 jQuery( document ).ready( function($) {
-	var fep_notification_block_count = 0;
+	var fep_notification_block_count = 0,
+		fep_interval_ms = 60000;// @test now now
+
+
 	function fep_notification_ajax_call( bypass_local ) {
 		bypass_local = typeof bypass_local === 'undefined' ? false : bypass_local;
 		if( fep_is_storage_available('localStorage') ){
+
 			if ( ! bypass_local
 				&& localStorage.getItem('fep_notification_time') !== null
 				&& localStorage.getItem('fep_notification_response') !== null
-				&& ( new Date().getTime() -  localStorage.getItem('fep_notification_time') ) < fep_notification_script.interval ) {
+				&& ( new Date().getTime() -  localStorage.getItem('fep_notification_time') ) < fep_interval_ms ) {
+
 				fep_update_notification( JSON.parse( localStorage.getItem( 'fep_notification_response' ) ) );
 				return;
 			}
 		}
+
+
 		if ( document.hidden || document.msHidden || document.mozHidden || document.webkitHidden ) {
-			if ( fep_notification_block_count < fep_notification_script.skip ) {
+			
+			// How many times notification ajax call will be skipped if browser tab not opened
+			if ( fep_notification_block_count < 2 ) {
+
 				fep_notification_block_count++;
 				return;
+			
 			}
 		}
 
@@ -28,7 +39,9 @@ jQuery( document ).ready( function($) {
 				xhr.setRequestHeader( 'X-WP-Nonce', fep_notification_script.nonce );
 			}
 		}).done( function( response ) {
+
 			if ( fep_is_storage_available('localStorage') ) {
+
 				localStorage.setItem( 'fep_notification_time', new Date().getTime() );
 				localStorage.setItem( 'fep_notification_response', JSON.stringify( response ) );
 			}
@@ -42,8 +55,8 @@ jQuery( document ).ready( function($) {
 
 	}
 	function fep_update_notification( response ){
-		$( '.fep_unread_message_count' ).html( response['message_unread_count_i18n'] );
-		$( '.fep_total_message_count' ).html( response['message_total_count_i18n'] );
+		$( '.fep_unread_message_count' ).html( response['message_unread_count'] );
+		$( '.fep_total_message_count' ).html( response['message_total_count'] );
 		$( '.fep_unread_message_count_text' ).html( response['message_unread_count_text'] );
 		
 
@@ -90,6 +103,6 @@ jQuery( document ).ready( function($) {
 	if ( fep_notification_script.call_on_ready ) {
 		fep_notification_ajax_call( true );
 
-		setInterval( fep_notification_ajax_call, parseInt( fep_notification_script.interval, 10 ) );
+		setInterval( fep_notification_ajax_call, parseInt( fep_interval_ms, 10 ) );
 	}
 });
