@@ -14,7 +14,10 @@ class Fep_Ajax {
 	}
 
 	function actions_filters() {
+
+		// @todo move this to only load on admin side
 		add_action( 'wp_ajax_fep_review_notice_dismiss', array( $this, 'fep_review_notice_dismiss' ) );
+		
 		add_action( 'wp_ajax_fep_ajax_att_delete', array( $this, 'att_delete' ) );
 		if ( fep_get_option( 'block_other_users', 1 ) ) {
 			add_action( 'wp_ajax_fep_block_unblock_users_ajax', array( $this, 'fep_block_unblock_users_ajax' ) );
@@ -38,7 +41,7 @@ class Fep_Ajax {
 		wp_die( $return );
 	}
 
-	function fep_review_notice_dismiss() {
+	function fep_review_notice_dismiss() {//// @todo move this to only load on admin side
 		if ( ! empty( $_POST['fep_click'] ) && current_user_can( 'manage_options' ) ) {
 			if ( 'later' == $_POST['fep_click'] ) {
 				update_user_meta( get_current_user_id(), 'fep_review_notice_dismiss', time() );

@@ -1034,12 +1034,10 @@ function fep_send_message_transition_post_status( $new_status, $old_status, $mes
 		if( 'threaded' === fep_get_message_view() && $message->mgs_parent ) {
 			fep_update_reply_info( $message->mgs_parent );
 		}
+
 		$participants = fep_get_participants( $message->mgs_id, true );
 		foreach ( $participants as $participant ) {
 			delete_user_meta( $participant, '_fep_user_message_count' );
-			if ( $participant != $message->mgs_author && 'publish' == $new_status ) {
-				delete_user_meta( $participant, '_fep_notification_dismiss' );
-			}
 		}
 	}
 }

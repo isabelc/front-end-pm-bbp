@@ -19,10 +19,8 @@ if ( is_array( $fep_options ) && ! empty( $fep_options['delete_data_on_uninstall
 	delete_option( 'FEP_admin_options' );
 	delete_option( 'fep_updated_versions' );
 	delete_site_option( 'fep_db_version' );
-	
 	delete_metadata( 'user', 0, 'FEP_user_options', '', true );
 	delete_metadata( 'user', 0, '_fep_user_message_count', '', true );
-	delete_metadata( 'user', 0, '_fep_notification_dismiss', '', true );
 
 	// Remove all database tables of Front End PM (if any).
 	$fep_tables = [

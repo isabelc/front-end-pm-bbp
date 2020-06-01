@@ -117,15 +117,6 @@ class FEP_REST_API {
 				},
 			)
 		);
-		register_rest_route(
-			$namespace, '/notification/dismiss', array(
-				'methods'             => 'GET',
-				'callback'            => array( $this, 'notification_dismiss' ),
-				'permission_callback' => function ( $request ) {
-					return fep_current_user_can( 'access_message' );
-				},
-			)
-		);
 	}
 
 	function message_content( $request ) {
@@ -259,12 +250,6 @@ class FEP_REST_API {
 			'message_total_count'            => $mgs_total_count
 		);
 		return rest_ensure_response( $response );
-	}
-	public function notification_dismiss( $request ) {
-
-		update_user_meta( get_current_user_id(), '_fep_notification_dismiss', 1 );
-
-		return rest_ensure_response( [ 'success' => true ] );
 	}
 } //END CLASS
 
