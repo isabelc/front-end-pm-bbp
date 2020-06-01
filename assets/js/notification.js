@@ -1,4 +1,5 @@
 jQuery( document ).ready( function($) {
+	var fep_notification_block_count = 0;
 	function fep_notification_ajax_call( bypass_local ) {
 		bypass_local = typeof bypass_local === 'undefined' ? false : bypass_local;
 		if( fep_is_storage_available('localStorage') ){
@@ -10,6 +11,15 @@ jQuery( document ).ready( function($) {
 				return;
 			}
 		}
+		if ( document.hidden || document.msHidden || document.mozHidden || document.webkitHidden ) {
+			if ( fep_notification_block_count < fep_notification_script.skip ) {
+				fep_notification_block_count++;
+				return;
+			}
+		}
+
+		fep_notification_block_count = 0;
+
 		$.ajax({
 			url: fep_notification_script.root +'/notification',
 			method: 'GET',
@@ -26,6 +36,10 @@ jQuery( document ).ready( function($) {
 		}).fail( function() {
 			fep_update_notification( [] );
 		});
+	
+
+
+
 	}
 	function fep_update_notification( response ){
 		$( '.fep_unread_message_count' ).html( response['message_unread_count_i18n'] );
