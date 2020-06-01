@@ -193,7 +193,6 @@ function fep_update_user_option( $option, $value = '', $userid = '', $section = 
 }
 
 function fep_enqueue_scripts() {
-	wp_register_style( 'fep-common-style', FEP_PLUGIN_URL . 'assets/css/common-style.css', array(), FEP_PLUGIN_VERSION );
 	wp_register_style( 'fep-style', FEP_PLUGIN_URL . 'assets/css/style.css', array(), FEP_PLUGIN_VERSION );
 	if ( 'always' == fep_get_option( 'load_css','only_in_message_page' ) ) {
 		wp_enqueue_style( 'fep-style' );
@@ -201,7 +200,6 @@ function fep_enqueue_scripts() {
 				fep_page_id() && ( is_page( fep_page_id() ) || is_single( fep_page_id() ) ) ) {
 		wp_enqueue_style( 'fep-style' );
 	}
-	wp_enqueue_style( 'fep-common-style' );
 	wp_register_script( 'fep-script', FEP_PLUGIN_URL . 'assets/js/script.js', array( 'jquery' ), FEP_PLUGIN_VERSION, true );
 	wp_localize_script( 'fep-script', 'fep_script',
 		array(
