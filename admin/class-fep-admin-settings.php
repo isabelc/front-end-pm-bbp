@@ -460,15 +460,6 @@ class Fep_Admin_Settings {
 				'cb_label'	=> __( 'Can user reply messages deleted by other user?', 'front-end-pm' ),
 			),
 			//Notification Settings
-			'show_unread_count_in_title' => array(
-				'type'		=> 'checkbox',
-				'value'		=> fep_get_option( 'show_unread_count_in_title', 1 ),
-				'priority'	=> 10,
-				'section'	=> 'notification',
-				'class'		=> '',
-				'label'		=> __( 'Show count', 'front-end-pm' ),
-				'cb_label'	=> __( 'Show unread messages count in website title?', 'front-end-pm' ),
-			),
 			'show_unread_count_in_desktop' => array(
 				'type'		=> 'checkbox',
 				'value'		=> fep_get_option( 'show_unread_count_in_desktop', 1 ),

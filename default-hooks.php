@@ -12,10 +12,6 @@ add_action( 'wp_enqueue_scripts', 'fep_common_scripts' );
 add_action( 'admin_enqueue_scripts', 'fep_common_scripts' );
 add_action( 'template_redirect','fep_auth_redirect', 99 );
 add_filter( 'auth_redirect_scheme', 'fep_auth_redirect_scheme' );
-
-add_filter( 'document_title_parts', 'fep_show_unread_count_in_title', 999 );
-add_filter( 'pre_get_document_title', 'fep_pre_get_document_title', 999 );
-
 add_filter( 'fep_pre_save_mgs_title', 'wp_strip_all_tags' );
 //add_filter( 'fep_pre_save_mgs_title', 'trim' );
 

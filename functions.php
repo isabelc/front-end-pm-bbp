@@ -250,7 +250,6 @@ function fep_enqueue_scripts() {
 				'nonce'   => wp_create_nonce( 'wp_rest' ),
 				'interval'	=> apply_filters( 'fep_filter_ajax_notification_interval', MINUTE_IN_SECONDS * 1000 ),
 				'skip'		=> apply_filters( 'fep_filter_skip_notification_call', 2 ), // How many times notification ajax call will be skipped if browser tab not opened
-				'show_in_title'		=> fep_get_option( 'show_unread_count_in_title', '1' ),
 				'show_in_desktop'	=> fep_get_option( 'show_unread_count_in_desktop', '1' ),
 				'call_on_ready'		=> $call_on_ready,
 				'play_sound'		=> fep_get_option( 'play_sound', '1' ),
@@ -1351,29 +1350,6 @@ function fep_sanitize_html_class( $class ) {
 	}
 	return apply_filters( 'fep_sanitize_html_class', $class );
 }
-
-function fep_show_unread_count_in_title( $title ) {
-	if ( fep_get_option( 'show_unread_count_in_title', 1 ) && fep_current_user_can( 'access_message' ) ) {
-		wp_enqueue_script( 'fep-notification-script' );
-		if ( $count = fep_get_new_message_number() ) {
-			$count = number_format_i18n( $count );
-			$title['title'] = "($count) " . $title['title'];
-		}
-	}
-	return $title;
-}
-
-function fep_pre_get_document_title( $title ) {
-	if ( ! empty( $title ) && fep_get_option( 'show_unread_count_in_title', 1 ) && fep_current_user_can( 'access_message' ) ) {
-		wp_enqueue_script( 'fep-notification-script' );
-		if ( $count = fep_get_new_message_number() ) {
-			$count = number_format_i18n( $count );
-			$title = "($count) " . $title;
-		}
-	}
-	return $title;
-}
-
 function fep_is_func_disabled( $function ) {
 	$disabled = explode( ',', ini_get( 'disable_functions' ) );
 	return in_array( $function, $disabled );

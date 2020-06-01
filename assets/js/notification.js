@@ -65,10 +65,7 @@ jQuery( document ).ready( function($) {
 		} else{
 			$( '.fep-notification-bar' ).hide();
 		}
-		if ( '1' == fep_notification_script.show_in_title ) {
-			fep_show_count_in_title( response['message_unread_count'], response['message_unread_count_i18n'] );
-		}
-		
+	
 		$( document ).trigger( 'fep_notification', response );
 	}
 	function fep_is_storage_available(type) {
@@ -93,30 +90,6 @@ jQuery( document ).ready( function($) {
 				e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
 				// acknowledge QuotaExceededError only if there's something already stored
 				(storage && storage.length !== 0);
-		}
-	}
-
-	var fep_prev_count = -1;
-	function fep_show_count_in_title( count, count_i18n ) {
-		if ( fep_prev_count === count ) {
-			return;
-		}
-		fep_prev_count = count;
-		var title = document.title;
-
-		// this will test if the document title already has a notification count in it, e.g. (1) website title
-		if ( '(' === title.charAt(0) && -1 !== title.indexOf( ') ' ) ) {
-			// we will split the title after the first bracket
-			title = title.split( ') ' );
-			if ( count ) {
-				document.title = '(' + count_i18n + ') ' + title[1];
-			} else {
-				document.title = title[1];
-			}
-		} else {
-			if ( count ) {
-				document.title = '(' + count_i18n + ') ' + title;
-			}
 		}
 	}
 
