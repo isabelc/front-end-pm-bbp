@@ -112,15 +112,8 @@ class FEP_WP_List_Table extends WP_List_Table {
 			'recipients' 	=> __( 'Recipients', 'front-end-pm' ),
 			'mgs_created'  	=> __( 'Sent', 'front-end-pm' ),
 			'mgs_status'  	=> __( 'Status', 'front-end-pm' ),
+			'mgs_parent' 	=> 'Parent'
 		);
-		if( 'announcement' == $this->message_type ){
-			$columns['recipient_count'] = __( 'Recipients Count', 'front-end-pm' );
-			$columns['read_count'] = __( 'Read Count', 'front-end-pm' );
-			$columns['deleted_count'] = __( 'Deleted Count', 'front-end-pm' );
-		} else {
-			$columns['mgs_parent'] = __( 'Parent', 'front-end-pm' );
-		}
-
 		return apply_filters( 'fep_admin_table_columns', $columns, $this->message_type );
 	}
 	
@@ -270,12 +263,7 @@ class FEP_WP_List_Table extends WP_List_Table {
 		
 		$actions['view'] = '<a class="thickbox" href="' . esc_url( add_query_arg( array( 'page' => $_REQUEST['page'], 'action' => 'view', 'fep_id' => fep_get_the_id() ), admin_url( 'admin.php' ) ) . '&TB_iframe=true&width=700&height=550' ) . '">' . __( 'View', 'front-end-pm' ) . '</a>';
 		
-		if( 'announcement' == $this->message_type ){
-			$view = 'view_announcement';
-		} else {
-			$view = 'viewmessage';
-		}
-		$actions['view-frontend'] = '<a href="' . fep_query_url( $view, array( 'fep_id' => fep_get_the_id() ) ) . '">' . __( 'View in Front-end', 'front-end-pm' ) . '</a>';
+		$actions['view-frontend'] = '<a href="' . fep_query_url( 'viewmessage', array( 'fep_id' => fep_get_the_id() ) ) . '">' . __( 'View in Front-end', 'front-end-pm' ) . '</a>';
 
 		return $this->row_actions( $actions );
 	}

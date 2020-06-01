@@ -40,12 +40,10 @@ class Fep_Attachment {
 	
 	function actions_filters() {
 		add_action( 'fep_display_after_message', array( $this, 'display_attachment' ), 99 );
-		add_action( 'fep_display_after_announcement', array( $this, 'display_attachment' ), 99 );
 		add_action( 'template_redirect', array( $this, 'download_file' ) );
 		
 		if ( fep_get_option( 'allow_attachment', 1 ) ) {
 			add_action( 'fep_action_message_after_send', array( $this, 'upload_attachment' ), 10, 3 );
-			add_action( 'fep_action_announcement_after_added', array( $this, 'upload_attachment' ), 10, 3 );
 		}
 	}
 	
@@ -196,10 +194,8 @@ class Fep_Attachment {
 		
 		if( 'message' == $message_type && ! fep_current_user_can( 'view_message', $mgs_id ) ) {
 			wp_die(__( 'You have no permission to download this attachment.', 'front-end-pm' ) );
-		} elseif( 'announcement' == $message_type && ! fep_current_user_can( 'view_announcement', $mgs_id ) ) {
-			wp_die(__( 'You have no permission to download this attachment.', 'front-end-pm' ) );
 		}
-		
+
 		$attachment_path = $this->absulate_path( $attachment->att_file );
 		$attachment_name = basename( $attachment_path );
 	

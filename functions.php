@@ -100,7 +100,6 @@ function fep_include_require_files() {
 	require_once( FEP_PLUGIN_DIR . 'includes/class-fep-message-query.php' );
 	
 	$fep_files = array(
-		'announcement' 	=> FEP_PLUGIN_DIR . 'includes/class-fep-announcements.php',
 		'attachment' 	=> FEP_PLUGIN_DIR . 'includes/class-fep-attachment.php',
 		'directory' 	=> FEP_PLUGIN_DIR . 'includes/class-fep-directory.php',
 		'email' 		=> FEP_PLUGIN_DIR . 'includes/class-fep-emails.php',
@@ -244,28 +243,23 @@ function fep_enqueue_scripts() {
 	);
 	wp_register_script( 'fep-notification-script', FEP_PLUGIN_URL . 'assets/js/notification.js', array( 'jquery' ), FEP_PLUGIN_VERSION, true );
 	$call_on_ready = ( isset( $_GET['fepaction'] ) &&
-		( ( 'viewmessage' == $_GET['fepaction'] && fep_get_new_message_number() ) || ( 'view_announcement' == $_GET['fepaction'] && fep_get_new_announcement_number() ) )
-	) ? true : false;
+		( 'viewmessage' == $_GET['fepaction'] && fep_get_new_message_number() ) ) ? true : false;
 	wp_localize_script( 'fep-notification-script', 'fep_notification_script',
-		apply_filters( 'fep_filter_notification_script_localize', array(
+		array(
 				'root'    => esc_url_raw( rest_url( 'front-end-pm/v1' ) ),
 				'nonce'   => wp_create_nonce( 'wp_rest' ),
 				'interval'	=> apply_filters( 'fep_filter_ajax_notification_interval', MINUTE_IN_SECONDS * 1000 ),
 				'skip'		=> apply_filters( 'fep_filter_skip_notification_call', 2 ), // How many times notification ajax call will be skipped if browser tab not opened
 				'show_in_title'		=> fep_get_option( 'show_unread_count_in_title', '1' ),
 				'show_in_desktop'	=> fep_get_option( 'show_unread_count_in_desktop', '1' ),
-				'call_on_ready'		=> apply_filters( 'fep_filter_notification_call_on_ready', $call_on_ready ),
+				'call_on_ready'		=> $call_on_ready,
 				'play_sound'		=> fep_get_option( 'play_sound', '1' ),
 				'sound_url'			=> FEP_PLUGIN_URL . 'assets/audio/plucky.mp3',
 				'icon_url'			=> FEP_PLUGIN_URL . 'assets/images/desktop-notification-32.png',
 				'mgs_notification_title'=> __( 'New Message. ', 'front-end-pm' ),
 				'mgs_notification_body'	=> __( 'You have received a new message. ', 'front-end-pm' ),
-				'mgs_notification_url'	=> fep_query_url( 'messagebox' ),
-				'ann_notification_title'=> __( 'New Announcement. ', 'front-end-pm' ),
-				'ann_notification_body'	=> __( 'You have received a new announcement. ', 'front-end-pm' ),
-				'ann_notification_url'	=> fep_query_url( 'announcements' ),
+				'mgs_notification_url'	=> fep_query_url( 'messagebox' )
 			)
-		)
 	);
 	wp_register_script( 'fep-replies-show-hide', FEP_PLUGIN_URL . 'assets/js/replies-show-hide.js', array( 'jquery' ), FEP_PLUGIN_VERSION, true );
 	wp_register_script( 'fep-attachment-script', FEP_PLUGIN_URL . 'assets/js/attachment.js', array( 'jquery' ), FEP_PLUGIN_VERSION, true );
@@ -497,65 +491,6 @@ function fep_get_new_message_button( $args = array() ) {
 	}
 	return $ret;
 }
-
-function fep_get_new_announcement_number() {
-	return fep_get_user_announcement_count( 'unread' );
-}
-
-function fep_get_new_announcement_button( $args = array() ) {
-	if ( ! fep_current_user_can( 'access_message' ) ) {
-		return '';
-	}
-	$args = wp_parse_args( $args, array(
-		'show_bracket'	=> '1',
-		'hide_if_zero'	=> '1',
-		'ajax'			=> '1',
-		'class'			=> 'fep-font-red',
-	) );
-	$args['class'] = fep_sanitize_html_class( $args['class'] );
-	$new           = number_format_i18n( fep_get_new_announcement_number() );
-	if ( empty( $args['ajax'] ) ) {
-		if ( ! $new && $args['hide_if_zero'] ) {
-			return '';
-		}
-		$ret = '';
-		if ( $args['show_bracket'] ) {
-			$ret .= '( ';
-		}
-		$ret .= '<span class="' . $args['class'] . '">' . $new . '</span>';
-		if ( $args['show_bracket'] ) {
-			$ret .= ' )';
-		}
-		return $ret;
-	}
-	wp_enqueue_script( 'fep-notification-script' );
-	$args['class'] = $args['class'] . ' fep_unread_announcement_count';
-	if ( $args['hide_if_zero'] ) {
-		$args['class'] = $args['class'] . ' fep_unread_announcement_count_hide_if_zero';
-	}
-	$ret = '';
-	if ( $args['show_bracket'] && $args['hide_if_zero'] && ! $new ) {
-		$ret .= '<span class="fep_unread_announcement_count_hide_if_zero fep-hide">(</span>';
-	} elseif ( $args['show_bracket'] && $args['hide_if_zero'] ) {
-		$ret .= '<span class="fep_unread_announcement_count_hide_if_zero">(</span>';
-	} elseif ( $args['show_bracket'] ) {
-		$ret .= '( ';
-	}
-	if ( ! $new && $args['hide_if_zero'] ) {
-		$args['class'] = $args['class'] . ' fep-hide';
-	}
-	$ret .= '<span class="' . $args['class'] . '">' . $new . '</span>';
-
-	if ( $args['show_bracket'] && $args['hide_if_zero'] && ! $new ) {
-		$ret .= '<span class="fep_unread_announcement_count_hide_if_zero fep-hide">)</span>';
-	} elseif ( $args['show_bracket'] && $args['hide_if_zero'] ) {
-		$ret .= '<span class="fep_unread_announcement_count_hide_if_zero">)</span>';
-	} elseif ( $args['show_bracket'] ) {
-		$ret .= ' )';
-	}
-	return $ret;
-}
-
 function fep_is_user_blocked( $login = '' ) {
 	global $user_login;
 	if ( ! $login && $user_login ) {
@@ -631,11 +566,6 @@ function fep_user_name( $id ) {
 function fep_get_user_message_count( $value = 'all', $force = false, $user_id = false ) {
 	return Fep_Messages::init()->user_message_count( $value, $force, $user_id );
 }
-
-function fep_get_user_announcement_count( $value = 'all', $force = false, $user_id = false ) {
-	return FEP_Announcements::init()->get_user_announcement_count( $value, $force, $user_id );
-}
-
 function fep_get_message( $id ) {
 	return FEP_Message::get_instance( $id );
 }
@@ -865,24 +795,17 @@ function fep_current_user_can( $cap, $id = false ) {
 			}
 			break;
 		case 'view_message':
-		case 'view_announcement':
 			if ( $id && ( ( in_array( get_current_user_id(), fep_get_participants( $id, true ) ) && fep_get_message_status( $id ) == 'publish' ) || fep_is_user_admin() || fep_is_user_whitelisted() ) ) {
 				$can = true;
 			}
 			break;
 		case 'delete_message': // only for himself
-		case 'delete_announcement': // only for himself
 			if ( $id && in_array( get_current_user_id(), fep_get_participants( $id, true ) ) && fep_get_message_status( $id ) == 'publish' ) {
 				$can = true;
 			}
 			break;
 		case 'access_directory':
 			if ( fep_is_user_admin() || fep_is_user_whitelisted() || fep_get_option( 'show_directory', 1 ) ) {
-				$can = true;
-			}
-			break;
-		case 'add_announcement':
-			if ( fep_is_user_admin() ) {
 				$can = true;
 			}
 			break;
@@ -1130,70 +1053,6 @@ function fep_send_message_transition_post_status( $new_status, $old_status, $mes
 		}
 	}
 }
-
-function fep_add_announcement( $announcement = null, $override = array() ) {
-	if ( null === $announcement ) {
-		$announcement = $_POST;
-	}
-	$announcement = apply_filters( 'fep_filter_announcement_before_added', $announcement );
-	if ( empty( $announcement['message_title'] ) || empty( $announcement['message_content'] ) ) {
-		return false;
-	}
-	// Create post array
-	$post = array(
-		'mgs_title'	=> $announcement['message_title'],
-		'mgs_content'	=> $announcement['message_content'],
-		'mgs_status'	=> 'publish',
-		'mgs_type'		=> 'announcement',
-		'mgs_author'	=> get_current_user_id(),
-		'mgs_created'	=> current_time( 'mysql', true ),
-	);
-
-	if ( $override && is_array( $override ) ) {
-		$post = wp_parse_args( $override, $post );
-	}
-	$post = apply_filters( 'fep_filter_announcement_after_override', $post, $announcement );
-
-	$post = wp_unslash( $post );
-	
-	$new_message = new FEP_Message;
-	$announcement_id = $new_message->insert( $post );
-
-	// Insert the message into the database
-	if ( ! $announcement_id ) {
-		return false;
-	}
-	/*
-	$inserted_announcement = FEP_Message::get_instance( $announcement_id );
-	if( ! $inserted_announcement ){
-		return false;
-	}
-	*/
-	if ( ! empty( $announcement['announcement_roles'] ) && is_array( $announcement['announcement_roles'] ) ) {
-		$user_ids = get_users( [ 'fields' => 'ids', 'role__in' => $announcement['announcement_roles'] ] );
-		$user_ids[] = $new_message->mgs_author;
-		
-		$user_ids = apply_filters( 'fep_filter_announcement_participant_ids', $user_ids, $announcement_id, $announcement, $new_message );
-		
-		$new_message->insert_participants( $user_ids );
-		
-		foreach( $announcement['announcement_roles'] as $role ){
-			fep_add_meta( $announcement_id, '_fep_participant_roles', $role );
-		}
-	}
-	if ( is_multisite() ) {
-		fep_add_meta( $announcement_id, '_fep_blog_id', get_current_blog_id() );
-	}
-	
-	FEP_Participants::init()->mark( $new_message->mgs_id, $new_message->mgs_author, ['read' => true, 'parent_read' => true ] );
-
-	do_action( 'fep_action_announcement_after_added', $announcement_id, $announcement, $new_message );
-	
-	fep_status_change( 'new', $new_message );
-	
-	return $announcement_id;
-}
-
 function fep_backticker_encode( $text ) {
 	$text = $text[1];
 	$text = str_replace( '&amp;lt;', '&lt;', $text );
@@ -1237,10 +1096,8 @@ function fep_notification_div() {
 	wp_enqueue_script( 'fep-notification-script' );
 	$unread_count = fep_get_new_message_number();
 	$sm = sprintf( _n( '%s message', '%s messages', $unread_count, 'front-end-pm' ), number_format_i18n( $unread_count ) );
-	$unread_ann_count = fep_get_new_announcement_number();
-	$sa = sprintf( _n( '%s announcement', '%s announcements', $unread_ann_count, 'front-end-pm' ), number_format_i18n( $unread_ann_count ) );
 	$class = 'fep-notification-bar';
-	if ( ! $unread_count && ! $unread_ann_count ) {
+	if ( ! $unread_count ) {
 		$class .= ' fep-hide';
 	} elseif ( get_user_meta( get_current_user_id(), '_fep_notification_dismiss', true ) ) {
 		$class .= ' fep-hide';
@@ -1253,15 +1110,10 @@ function fep_notification_div() {
 	}
 	$show .= '<span class="' . $class . '"> <a href="' . fep_query_url( 'messagebox' ) . '"><span class="fep_unread_message_count_text">' . $sm . '</span></a></span>';
 	$class = 'fep_hide_if_anyone_zero';
-	if ( ! $unread_count || ! $unread_ann_count ) {
+	if ( ! $unread_count ) {
 		$class .= ' fep-hide';
 	}
 	$show .= '<span class="' . $class . '"> ' . __( 'and', 'front-end-pm' ) . '</span>';
-	$class = 'fep_unread_announcement_count_hide_if_zero';
-	if ( ! $unread_ann_count ) {
-		$class .= ' fep-hide';
-	}
-	$show .= '<span class="' . $class . '"> <a href="' . fep_query_url( 'announcements' ) . '"><span class="fep_unread_announcement_count_text">' . $sa . '</span></a></span>';
 	$show .= ' ';
 	$show .= __( 'unread', 'front-end-pm' );
 	$show .= '</p>';
@@ -1419,7 +1271,6 @@ function fep_form_posted() {
 			}
 			break;
 		case 'bulk_action':
-		case 'announcement_bulk_action':
 		case 'directory_bulk_action':
 			$posted_bulk_action = ! empty( $_POST['fep-bulk-action'] ) ? $_POST['fep-bulk-action'] : '';
 			if ( ! $posted_bulk_action ) {
@@ -1471,16 +1322,6 @@ function fep_get_participants( $message_id, $exclude_deleted = false ) {
 	}
 	return $return;
 }
-
-function fep_get_participant_roles( $announcement_id ) {
-
-	$roles = fep_get_meta( $announcement_id, '_fep_participant_roles' );
-	if( ! is_array( $roles ) ){
-		$roles = [];
-	}
-	return $roles;
-}
-
 function fep_get_message_view() {
 	$message_view = fep_get_option( 'message_view', 'threaded' );
 	$message_view = apply_filters( 'fep_get_message_view', $message_view );
@@ -1667,21 +1508,12 @@ function fep_get_the_date( $which = 'created', $mgs_id = 0 ){
 
 function fep_participants_view( $mgs_id = 0 ) {
 	$wp_roles = wp_roles();
-	
-	if( 'announcement' == fep_get_message_field( 'mgs_type', $mgs_id ) ){
-		$roles = fep_get_participant_roles( fep_get_the_id( $mgs_id ) );
-		foreach( $roles as $role ){
-			if( $wp_roles->is_role( $role ) )
-			 echo translate_user_role( $wp_roles->roles[ $role ]['name'] ) .'<br />';
-		}
-	} elseif( 'message' == fep_get_message_field( 'mgs_type', $mgs_id ) ){
-		if( $group = apply_filters( 'fep_is_group_message', false, $mgs_id ) ){
-			echo esc_html( $group );
-		} elseif( $recipients = fep_get_participants( fep_get_the_id( $mgs_id ) ) ){
-			foreach ( $recipients as $recipient ) {
-				if( fep_get_message_field( 'mgs_author', $mgs_id ) != $recipient )
-				echo fep_user_name( $recipient ) . '<br />';
-			}
+	if( $group = apply_filters( 'fep_is_group_message', false, $mgs_id ) ){
+		echo esc_html( $group );
+	} elseif( $recipients = fep_get_participants( fep_get_the_id( $mgs_id ) ) ){
+		foreach ( $recipients as $recipient ) {
+			if( fep_get_message_field( 'mgs_author', $mgs_id ) != $recipient )
+			echo fep_user_name( $recipient ) . '<br />';
 		}
 	}
 }

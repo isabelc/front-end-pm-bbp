@@ -253,17 +253,13 @@ class FEP_Participants {
 			if( $participants->mgs_participant ){
 				if( 'message' == $type ){
 					delete_user_meta( $participants->mgs_participant, '_fep_user_message_count' );
-				} elseif( 'announcement' == $type ){
-					delete_user_meta( $participants->mgs_participant, '_fep_user_announcement_count' );
-				}
+				} 
 			}
 		} else {
 			foreach( $participants as $participant ){
 				if( $participant->mgs_participant ){
 					if( 'message' == $type ){
 						delete_user_meta( $participant->mgs_participant, '_fep_user_message_count' );
-					} elseif( 'announcement' == $type ){
-						delete_user_meta( $participant->mgs_participant, '_fep_user_announcement_count' );
 					}
 				}
 			}

@@ -3,7 +3,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-//Announcement CLASS
 class Fep_User_Settings {
 	private static $instance;
 

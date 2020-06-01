@@ -1,6 +1,6 @@
 <?php
 /**
- * Messages and Announcements Query
+ * Messages Query
  *
  * @package Front End PM
  * @since 10.1.1

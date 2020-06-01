@@ -104,29 +104,15 @@ class FEP_text_widget extends WP_Widget {
 			echo $args['before_title'] . apply_filters( 'widget_title', $instance['title'] ) . $args['after_title'];
 		}
 		$show_messagebox = isset( $instance['show_messagebox'] ) ? $instance['show_messagebox'] : false;
-		$show_announcement = isset( $instance['show_announcement'] ) ? $instance['show_announcement'] : false;
 
-		if ( $show_messagebox || $show_announcement ) {
+		if ( $show_messagebox ) {
 			echo __( 'Welcome', 'front-end-pm' ) . ' ' . fep_user_name( $user_ID ). '<br />';
 			echo __( 'You have', 'front-end-pm' );
-			if ( $show_messagebox ) {
-				echo ' ';
-				$unread_count = fep_get_new_message_number();
-				$sm = sprintf( _n( '%s message', '%s messages', $unread_count, 'front-end-pm'), number_format_i18n( $unread_count ) );
-				echo '<a href="' . fep_query_url('messagebox') . '"><span class="fep_unread_message_count_text">' . $sm . '</span></a>';
-			}
-			if ( $show_messagebox && $show_announcement ) {
-				echo ' ';
-				echo __( 'and', 'front-end-pm' );
-			}
-			if ( $show_announcement ) {
-				echo ' ';
-				$unread_ann_count = fep_get_new_announcement_number();
-				$sa = sprintf( _n( '%s announcement', '%s announcements', $unread_ann_count, 'front-end-pm' ), number_format_i18n( $unread_ann_count ) );
-				echo '<a href="' . fep_query_url('announcements') . '"><span class="fep_unread_announcement_count_text">' . $sa . '</span></a>';
-			}
 			echo ' ';
-			echo __( 'unread', 'front-end-pm' );
+			$unread_count = fep_get_new_message_number();
+			$sm = sprintf( _n( '%s message', '%s messages', $unread_count, 'front-end-pm'), number_format_i18n( $unread_count ) );
+			echo '<a href="' . fep_query_url('messagebox') . '"><span class="fep_unread_message_count_text">' . $sm . '</span></a>';
+			echo ' unread';
 		}
 		do_action( 'fep_text_widget' );
 		echo $args['after_widget'];
@@ -142,7 +128,6 @@ class FEP_text_widget extends WP_Widget {
 	public function form( $instance ) {
 		$title = isset( $instance['title'] ) ? $instance['title'] : __( 'FEP Text Widget', 'front-end-pm' );
 		$show_messagebox = isset( $instance['show_messagebox'] ) ? $instance['show_messagebox'] : false;
-		$show_announcement = isset( $instance['show_announcement'] ) ? $instance['show_announcement'] : false;
 		?>
 		<p>
 			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:' ); ?></label> 
@@ -151,10 +136,6 @@ class FEP_text_widget extends WP_Widget {
 		<p>
 			<input class="checkbox" type="checkbox" <?php checked( $show_messagebox, 1 ); ?> id="<?php echo $this->get_field_id( 'show_messagebox' ); ?>" name="<?php echo $this->get_field_name( 'show_messagebox' ); ?>" value="1"/>
 			<label for="<?php echo $this->get_field_id( 'show_messagebox' ); ?>"><?php _e( 'Show Messagebox?', 'front-end-pm' ); ?></label>
-		</p>
-		<p>
-			<input class="checkbox" type="checkbox" <?php checked( $show_announcement, 1 ); ?> id="<?php echo $this->get_field_id( 'show_announcement' ); ?>" name="<?php echo $this->get_field_name( 'show_announcement' ); ?>" value="1"/>
-			<label for="<?php echo $this->get_field_id( 'show_announcement' ); ?>"><?php _e( 'Show Announcement?', 'front-end-pm' ); ?></label>
 		</p>
 		<?php 
 	}
@@ -173,7 +154,6 @@ class FEP_text_widget extends WP_Widget {
 		$instance = array();
 		$instance['title'] = ( ! empty( $new_instance['title'] ) ) ? strip_tags( $new_instance['title'] ) : '';
 		$instance['show_messagebox'] = ( ! empty( $new_instance['show_messagebox'] ) ) ? strip_tags( $new_instance['show_messagebox'] ) : '';
-		$instance['show_announcement'] = ( ! empty( $new_instance['show_announcement'] ) ) ? strip_tags( $new_instance['show_announcement'] ) : '';
 		return $instance;
 	}
 }

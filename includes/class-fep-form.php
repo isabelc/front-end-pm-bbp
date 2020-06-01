@@ -20,12 +20,6 @@ class Fep_Form {
 	}
 	
 	public function form_fields( $where = 'newmessage' ){
-		$wp_roles = wp_roles()->roles;
-		$roles = array();
-		foreach( $wp_roles as $role => $role_info ){
-			$roles[ $role ] = translate_user_role( $role_info['name'] );
-		}
-		$roles = apply_filters( 'fep_filter_to_roles_to_create_announcement', $roles );
 		$fields = array(
 			'message_to' => array(
 				'label'					=> __( 'To', 'front-end-pm' ),
@@ -41,15 +35,6 @@ class Fep_Form {
 				'suggestion'			=> ( fep_get_option( 'show_autosuggest', 1 ) || fep_is_user_admin() ),
 				'priority'				=> 5,
 			),
-			'announcement_roles' => array(
-				'label'					=> __( 'To Roles', 'front-end-pm' ),
-				'type'					=> 'checkbox',
-				'multiple'				=> true,
-				'options'				=> $roles,
-				'required'				=> true,
-				'priority'				=> 7,
-				'where'					=> 'new_announcement',
-			),
 			'message_title' => array(
 				'label'					=> __( 'Subject', 'front-end-pm' ),
 				//'description'			=> __( 'Enter your message subject here', 'front-end-pm' ),
@@ -64,7 +49,7 @@ class Fep_Form {
 				'name'					=> 'message_title',
 				'class'					=> 'input-text',
 				'priority'				=> 10,
-				'where'					=> array( 'newmessage', 'shortcode-newmessage', 'new_announcement' ),
+				'where'					=> array( 'newmessage', 'shortcode-newmessage' ),
 			),
 			'message_content' => array(
 				'label'					=> __( 'Message', 'front-end-pm' ),
@@ -76,7 +61,7 @@ class Fep_Form {
 				'placeholder'			=> '',
 				'priority'				=> 15,
 				'value'					=> '',
-				'where'					=> array( 'newmessage', 'reply', 'shortcode-newmessage', 'new_announcement' ),
+				'where'					=> array( 'newmessage', 'reply', 'shortcode-newmessage' ),
 			),
 			'shortcode-message-to' => array(
 				'type'					=> 'shortcode-message-to',
@@ -88,7 +73,7 @@ class Fep_Form {
 				'type'			=> 'wp_token',
 				'value'			=> wp_create_nonce( 'fep-form' ),
 				'token-action'	=> 'fep-form',
-				'where'			=> array( 'newmessage', 'reply', 'shortcode-newmessage', 'new_announcement', 'settings' ),
+				'where'			=> array( 'newmessage', 'reply', 'shortcode-newmessage', 'settings' ),
 			),
 			'fep_parent_id' => array(
 				'type'			=> 'fep_parent_id',
@@ -110,17 +95,10 @@ class Fep_Form {
 				'priority'		=> 20,
 				'where'			=> 'settings'
 			),
-			'allow_ann' => array(
-				'type'			=> 'checkbox',
-				'value'			=> fep_get_user_option( 'allow_ann', 1),
-				'cb_label'		=> __("Email me when new announcement is published?", 'front-end-pm' ),
-				'priority'		=> 30,
-				'where'			=> 'settings'
-			),
 			'fep_action' => array(
 				'type'  => 'hidden',
 				'value' => $where,
-				'where' => array( 'newmessage', 'reply', 'shortcode-newmessage', 'new_announcement', 'settings' ),
+				'where' => array( 'newmessage', 'reply', 'shortcode-newmessage', 'settings' ),
 			),
 		);
 		if ( fep_get_option( 'block_other_users', 1 ) ) {
@@ -137,7 +115,7 @@ class Fep_Form {
 				'type'        => 'file',
 				'value'    => '',
 				'priority'    => 20,
-				'where'    => array( 'newmessage', 'reply', 'shortcode-newmessage', 'new_announcement' )
+				'where'    => array( 'newmessage', 'reply', 'shortcode-newmessage' )
 			);
 		}
 		$fields = apply_filters( 'fep_form_fields', $fields, $where );

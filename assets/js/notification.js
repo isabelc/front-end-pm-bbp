@@ -32,8 +32,8 @@ jQuery( document ).ready( function($) {
 				fep_desktop_notification( response );
 			}
 			if ( '1' == fep_notification_script.play_sound
-			&& ( response['message_unread_count'] || response['announcement_unread_count'] )
-			&& ( response['message_unread_count'] > response['message_unread_count_prev'] || response['announcement_unread_count'] > response['announcement_unread_count_prev'] ) ) {
+			&& ( response['message_unread_count'] )
+			&& ( response['message_unread_count'] > response['message_unread_count_prev'] ) ) {
 				fep_sound.play();
 			}
 			if ( fep_is_storage_available('localStorage') ) {
@@ -48,30 +48,18 @@ jQuery( document ).ready( function($) {
 	function fep_update_notification( response ){
 		//console.log(  response );
 		$( '.fep_unread_message_count' ).html( response['message_unread_count_i18n'] );
-		$( '.fep_unread_announcement_count' ).html( response['announcement_unread_count_i18n'] );
 		$( '.fep_total_message_count' ).html( response['message_total_count_i18n'] );
 		$( '.fep_unread_message_count_text' ).html( response['message_unread_count_text'] );
-		$( '.fep_unread_announcement_count_text' ).html( response['announcement_unread_count_text'] );
+		
+
 		if ( response['message_unread_count'] ) {
 			$( '.fep_unread_message_count_hide_if_zero' ).show();
-		} else {
-			$( '.fep_unread_message_count_hide_if_zero' ).hide();
-		}
-		if ( response['announcement_unread_count'] ) {
-			$( '.fep_unread_announcement_count_hide_if_zero' ).show();
-		} else {
-			$( '.fep_unread_announcement_count_hide_if_zero' ).hide();
-		}
-		if ( response['announcement_unread_count'] && response['message_unread_count'] ) {
 			$( '.fep_hide_if_anyone_zero' ).show();
 		} else {
+			$( '.fep_unread_message_count_hide_if_zero' ).hide();
 			$( '.fep_hide_if_anyone_zero' ).hide();
 		}
-		if ( response['announcement_unread_count'] || response['message_unread_count'] ) {
-			$( '.fep_hide_if_both_zero' ).show();
-		} else {
-			$( '.fep_hide_if_both_zero' ).hide();
-		}
+
 		if ( response['notification_bar'] ) {
 			$( '.fep-notification-bar' ).show();
 		} else{
@@ -156,17 +144,12 @@ jQuery( document ).ready( function($) {
 	function fep_desktop_notification_show( response ) {
 		var title, body, link, notification;
 
-		//Multiple notification in same time create issue in Firefox. So we will show only message OR announcement notification
+		//Multiple notification in same time create issue in Firefox.
 		if ( response['message_unread_count']
 		&& response['message_unread_count'] > response['message_unread_count_prev'] ) {
 			title = fep_notification_script.mgs_notification_title;
 			body = fep_notification_script.mgs_notification_body;
 			link = fep_notification_script.mgs_notification_url;
-		} else if ( response['announcement_unread_count']
-		&& response['announcement_unread_count'] > response['announcement_unread_count_prev'] ) {
-			title = fep_notification_script.ann_notification_title;
-			body = fep_notification_script.ann_notification_body;
-			link = fep_notification_script.ann_notification_url;
 		} else {
 			return false;
 		}

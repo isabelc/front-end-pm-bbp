@@ -119,13 +119,6 @@ class Fep_Admin_Settings {
 				'label'		 => __( 'Messages per page', 'front-end-pm' ),
 				'description'=> __( 'Messages to show per page.', 'front-end-pm' ),
 			),
-			'announcements_page' => array(
-				'type'		 => 'number',
-				'value'		 => fep_get_option( 'announcements_page', 15 ),
-				'priority'	 => 5,
-				'label'		 => __( 'Announcements per page', 'front-end-pm' ),
-				'description'=> __( 'Announcements to show per page.', 'front-end-pm' ),
-			),
 			'user_page'	=> array(
 				'type'		 => 'number',
 				'value'		 => fep_get_option( 'user_page', 50 ),
@@ -345,7 +338,6 @@ class Fep_Admin_Settings {
 				'description'=> __( 'Always shown to Admins.', 'front-end-pm' ),
 			),
 			//Message
-			//Announcement
 			// Privacy
 			'export_messages' => array(
 				'type'		 => 'checkbox',
@@ -354,14 +346,6 @@ class Fep_Admin_Settings {
 				'section'	 => 'privacy_export',
 				'class'		 => '',
 				'label'		 => __( 'Export Messages', 'front-end-pm' ),
-			),
-			'export_announcements' => array(
-				'type'		 => 'checkbox',
-				'value'		 => fep_get_option( 'export_announcements', 1 ),
-				'priority'	 => 5,
-				'section'	 => 'privacy_export',
-				'class'		 => '',
-				'label'		 => __( 'Export Announcements', 'front-end-pm' ),
 			),
 			'erase_messages' => array(
 				'type'		 => 'select',
@@ -382,18 +366,6 @@ class Fep_Admin_Settings {
 				'priority'	 => 15,
 				'section'	 => 'privacy_erase',
 				'label'		 => __( 'Erase Replies', 'front-end-pm' ),
-				'options'	=> array(
-					'none'      => __( 'No Action', 'front-end-pm' ),
-					'erase'     => __( 'Erase', 'front-end-pm' ),
-					'anonymize' => __( 'Anonymize', 'front-end-pm' ),
-				),
-			),
-			'erase_announcements' => array(
-				'type'		 => 'select',
-				'value'		 => fep_get_option( 'erase_announcements', 'erase' ),
-				'priority'	 => 20,
-				'section'	 => 'privacy_erase',
-				'label'		 => __( 'Erase Announcements', 'front-end-pm' ),
 				'options'	=> array(
 					'none'      => __( 'No Action', 'front-end-pm' ),
 					'erase'     => __( 'Erase', 'front-end-pm' ),
@@ -427,23 +399,6 @@ class Fep_Admin_Settings {
 				'section'	 => 'emails',
 				'label'		 => __( 'From Email', 'front-end-pm' ),
 				'description'=> __( 'All sent emails by Front End PM plugin will have this email address as sender.', 'front-end-pm' )
-			),
-			'notify_ann' => array(
-				'type'		=> 'checkbox',
-				'value'		=> fep_get_option( 'notify_ann', '1' ),
-				'priority'	=> 20,
-				'class'		=> '',
-				'section'	=> 'emails',
-				'label'		=> __( 'Send email?', 'front-end-pm' ),
-				'cb_label'	=> __( 'Send email to all users of selected role(s) when a new announcement is published?', 'front-end-pm' ),
-			),
-			'ann_to' => array(
-				'type'		 => 'email',
-				'value'		 => fep_get_option( 'ann_to', get_bloginfo( 'admin_email' ) ),
-				'priority'	 => 25,
-				'section'	 => 'emails',
-				'label'		 => __( 'Valid email address for "to" field of announcement email', 'front-end-pm' ),
-				'description'=> __( 'All users email will be in "Bcc" field.', 'front-end-pm' ),
 			),
 			//Security Settings
 			'userrole_access' => array(
@@ -502,15 +457,6 @@ class Fep_Admin_Settings {
 				'label'		=> __( 'Block other users', 'front-end-pm' ),
 				'cb_label'	=> __( 'Can user block other users?', 'front-end-pm' ),
 			),
-			'add_ann_frontend' => array(
-				'type'		=> 'checkbox',
-				'value'		=> fep_get_option( 'add_ann_frontend', 1 ),
-				'priority'	=> 35,
-				'section'	=> 'security',
-				'class'		=> '',
-				'label'		=> __( 'Add Announcement', 'front-end-pm' ),
-				'cb_label'	=> __( 'Can permitted users add Announcement from front end?', 'front-end-pm' ),
-			),
 			'reply_deleted_mgs' => array(
 				'type'		=> 'checkbox',
 				'value'		=> fep_get_option( 'reply_deleted_mgs', '' ),
@@ -546,7 +492,7 @@ class Fep_Admin_Settings {
 				'section'	=> 'notification',
 				'class'		=> '',
 				'label'		=> __( 'Show desktop notification', 'front-end-pm' ),
-				'cb_label'	=> __( 'Show desktop notification for new messages and announcements?', 'front-end-pm' ),
+				'cb_label'	=> __( 'Show desktop notification for new messages?', 'front-end-pm' ),
 			),
 			'play_sound' => array(
 				'type'		=> 'checkbox',
@@ -555,7 +501,7 @@ class Fep_Admin_Settings {
 				'section'	=> 'notification',
 				'class'		=> '',
 				'label'		=> __( 'Play Sound', 'front-end-pm' ),
-				'cb_label'	=> __( 'Play notification sound on message and announcement received?', 'front-end-pm' ),
+				'cb_label'	=> __( 'Play notification sound on message received?', 'front-end-pm' ),
 			),
 		);
 		foreach ( $user_role as $key => $role ) {
@@ -801,14 +747,6 @@ class Fep_Admin_Settings {
 				'tab_title'	=> __( 'Recipient', 'front-end-pm' ),
 				'priority'	=> 7,
 			),
-			/*'message' => array(
-				'tab_title'	=> __( 'Message', 'front-end-pm' ),
-				'priority'	=> 10,
-			),
-			'announcement'	=> array(
-				'tab_title'	=> __( 'Announcement', 'front-end-pm' ),
-				'priority'	=> 15,
-			),*/
 			'privacy' => array(
 				'tab_title'	=> __( 'Privacy', 'front-end-pm' ),
 				'priority'	=> 16,

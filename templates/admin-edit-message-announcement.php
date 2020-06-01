@@ -1,6 +1,6 @@
 <?php
 /**
- * Message and Announcement edit from back-end
+ * Message edit from back-end
  *
  * @package Front End PM
  * @since 10.1.2
@@ -72,7 +72,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 									echo wp_nonce_url(
 										add_query_arg(
 											array(
-												'page'   => ( 'announcement' === $message->mgs_type ) ? 'fep-all-announcements' : 'fep-all-messages',
+												'page'   => 'fep-all-messages',
 												'action' => 'delete',
 												'fep_id' => $message->mgs_id,
 											),

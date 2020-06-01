@@ -185,13 +185,6 @@ class FEP_REST_API {
 				require fep_locate_template( 'box-content.php' );
 				$response['data_formated'] = ob_get_clean();
 				break;
-			case 'announcements':
-				$box_content = FEP_Announcements::init()->get_user_announcements();
-				ob_start();
-				require fep_locate_template( 'box-content.php' );
-				$response['data_formated'] = ob_get_clean();
-				break;
-			
 			default:
 				return new WP_Error( 'no_conetnt', sprintf( __( 'No %s found.', 'front-end-pm' ), __('messages', 'front-end-pm') ), array( 'status' => 404 ) );
 				break;
@@ -259,13 +252,11 @@ class FEP_REST_API {
 
 		$mgs_unread_count = fep_get_new_message_number();
 		$mgs_total_count  = fep_get_user_message_count( 'total' );
-		$ann_unread_count = fep_get_new_announcement_number();
 		$dismiss          = get_user_meta( get_current_user_id(), '_fep_notification_dismiss', true );
 		$prev             = get_user_meta( get_current_user_id(), '_fep_notification_prev', true );
 
 		$new = array(
 			'message'      => $mgs_unread_count,
-			'announcement' => $ann_unread_count,
 		);
 		update_user_meta( get_current_user_id(), '_fep_notification_prev', $new );
 
@@ -278,12 +269,8 @@ class FEP_REST_API {
 			'message_unread_count_text'      => sprintf( _n( '%s message', '%s messages', $mgs_unread_count, 'front-end-pm' ), number_format_i18n( $mgs_unread_count ) ),
 			'message_total_count'            => $mgs_total_count,
 			'message_total_count_i18n'       => number_format_i18n( $mgs_total_count ),
-			'announcement_unread_count'      => $ann_unread_count,
-			'announcement_unread_count_i18n' => number_format_i18n( $ann_unread_count ),
-			'announcement_unread_count_text' => sprintf( _n( '%s announcement', '%s announcements', $ann_unread_count, 'front-end-pm' ), number_format_i18n( $ann_unread_count ) ),
-			'notification_bar'               => ( ( ! $mgs_unread_count && ! $ann_unread_count ) || $dismiss ) ? 0 : 1,
+			'notification_bar'               => ( (! $mgs_unread_count) || $dismiss ) ? 0 : 1,
 			'message_unread_count_prev'      => empty( $prev['message'] ) ? 0 : absint( $prev['message'] ),
-			'announcement_unread_count_prev' => empty( $prev['announcement'] ) ? 0 : absint( $prev['announcement'] ),
 		);
 		$response = apply_filters( 'fep_filter_notification_response', $response );
 

@@ -30,8 +30,6 @@ class Fep_Admin_Pages {
 		
 		add_submenu_page( 'fep-all-messages', "$label - " . __( 'All Messages', 'front-end-pm' ), __( 'All Messages', 'front-end-pm' ), $admin_cap, 'fep-all-messages', array( $this, 'all_messages' ) );
 		
-		add_submenu_page( 'fep-all-messages', "$label - " . __( 'All Announcements', 'front-end-pm' ), __( 'All Announcements', 'front-end-pm' ), $admin_cap, 'fep-all-announcements', array( $this, 'all_announcements' ) );
-		
 		add_submenu_page( 'fep-all-messages', "$label - " . __( 'All Attachments', 'front-end-pm' ), __( 'All Attachments', 'front-end-pm' ), $admin_cap, 'fep-all-attachments', array( $this, 'all_attachments' ) );
 		
 		add_submenu_page( 'fep-non-exist-menu', "$label - " . __( 'Edit', 'front-end-pm' ), __( 'Edit', 'front-end-pm' ), $admin_cap, 'fep-edit', array( $this, 'edit' ) );
@@ -64,34 +62,6 @@ class Fep_Admin_Pages {
 		</div>
 		<?php 
 	}
-	
-	function all_announcements(){
-		$table = new FEP_WP_List_Table( 'announcement' );
-		$table->prepare_items(); ?>
-		<div class="wrap">
-			<h1 class="wp-heading-inline"><?php
-			esc_html_e( __( 'Announcements', 'front-end-pm') );
-			?></h1>
-			<?php if ( isset( $_REQUEST['s'] ) && strlen( $_REQUEST['s'] ) ) {
-				/* translators: %s: search keywords */
-				printf( ' <span class="subtitle">' . __( 'Search results for &#8220;%s&#8221;' ) . '</span>', esc_html( $_REQUEST['s'] ) );
-			} ?>
-			<hr class="wp-header-end">
-			<div class="fep-admin-announcements-table">
-				<?php $this->notifications( __('announcement', 'front-end-pm') ); ?>
-				<?php $table->views(); ?>
-				<form id="fep-admin-announcements-table-form" method="get">
-					<input type="hidden" name="page" value="<?php echo esc_attr( $_REQUEST['page'] ); ?>" />
-					<?php $table->search_box( __( 'Search', 'front-end-pm' ), 'fep-announcement' ); ?>
-					<?php $table->display(); ?>
-					<?php add_thickbox(); ?>
-				</form>
-			</div>
-			<br class="clear" />
-		</div>
-		<?php 
-	}
-	
 	function all_attachments(){
 		$table = new FEP_Attachments_List_Table();
 		$table->prepare_items(); ?>
@@ -160,17 +130,11 @@ class Fep_Admin_Pages {
 		}
 		$message->update( $args );
 		$message->insert_attachments( $attchments );
-		if ( 'announcement' === $message->mgs_type ) {
-			$redirect_url = add_query_arg( [
-				'page'    => 'fep-all-announcements',
-				'updated' => 1,
-			], admin_url( 'admin.php' ) );
-		} else {
-			$redirect_url = add_query_arg( [
-				'page'    => 'fep-all-messages',
-				'updated' => 1,
-			], admin_url( 'admin.php' ) );
-		}
+		$redirect_url = add_query_arg( [
+			'page'    => 'fep-all-messages',
+			'updated' => 1,
+		], admin_url( 'admin.php' ) );
+	
 		wp_safe_redirect( $redirect_url );
 	}
 	
@@ -181,8 +145,6 @@ class Fep_Admin_Pages {
 		$type = '';
 		if ( 'fep-all-messages' === $_REQUEST['page'] ) {
 			$type = 'message';
-		} elseif ( 'fep-all-announcements' === $_REQUEST['page'] ) {
-			$type = 'announcement';
 		} elseif ( 'fep-all-attachments' === $_REQUEST['page'] ) {
 			$type = 'attachment';
 		}
@@ -282,7 +244,7 @@ class Fep_Admin_Pages {
 						'mgs_id' => $id,
 						'per_page' => 0, //unlimited
 						'mgs_status' => 'any',
-						'mgs_type' => ( 'fep-all-announcements' == $_REQUEST['page'] ) ? 'announcement' : 'message',
+						'mgs_type' => 'message',
 					];
 					if( 'threaded' == fep_get_message_view() && apply_filters( 'fep_erase_replies_if_threaded', true ) ){
 						$args['include_child'] = true;
@@ -305,7 +267,7 @@ class Fep_Admin_Pages {
 						'mgs_id_in' => $ids,
 						'per_page' => 0, //unlimited
 						'mgs_status' => 'any',
-						'mgs_type' => ( 'fep-all-announcements' == $_REQUEST['page'] ) ? 'announcement' : 'message',
+						'mgs_type' => 'message',
 					];
 					if( 'threaded' == fep_get_message_view() && apply_filters( 'fep_erase_replies_if_threaded', true ) ){
 						$args['include_child'] = true;
@@ -382,13 +344,9 @@ class Fep_Admin_Pages {
 		}
 		fep_set_current_message( $message );
 		
-		$type = fep_get_message_field( 'mgs_type' );
-		if( 'message' == $type && ! fep_current_user_can( 'view_message', $id ) ){
+		if(! fep_current_user_can( 'view_message', $id ) ){
 			wp_die( __( 'You do not have permission to view this message!', 'front-end-pm' ) );
-		} elseif( 'announcement' == $type && ! fep_current_user_can( 'view_announcement', $id ) ){
-			wp_die( __( 'You do not have permission to view this announcement!', 'front-end-pm' ) );
-		}
-
+		} 
 		require( fep_locate_template( 'admin-view-message-announcement.php' ) );
 		exit;
 	}
@@ -397,10 +355,6 @@ class Fep_Admin_Pages {
 		$exporters['front-end-pm-messages'] = array(
 			'exporter_friendly_name' => sprintf( __( '%s Messages', 'front-end-pm' ), fep_is_pro() ? 'Front End PM PRO' : 'Front End PM' ),
 			'callback'               => array( $this, 'data_exporter_messages' ),
-		);
-		$exporters['front-end-pm-announcements'] = array(
-			'exporter_friendly_name' => sprintf( __( '%s Announcements', 'front-end-pm' ), fep_is_pro() ? 'Front End PM PRO' : 'Front End PM' ),
-			'callback'               => array( $this, 'data_exporter_announcements' ),
 		);
 		return $exporters;
 	}
@@ -474,77 +428,6 @@ class Fep_Admin_Pages {
 			'done' => $done,
 		);
 	}
-	
-	function data_exporter_announcements( $email_address, $page = 1 ) {
-		$user_id = (int) fep_get_userdata( $email_address, 'ID', 'email' );
-		if ( ! $user_id || ! fep_get_option( 'export_announcements', 1 ) ) {
-			return array(
-				'data' => [],
-				'done' => true,
-			);
-		}
-		$args = array(
-			'mgs_type'   => 'announcement',
-			'paged'      => (int) $page,
-			'per_page'   => 100,
-			'mgs_status' => 'any',
-			'mgs_author' => $user_id,
-		);
-		$announcements = fep_get_messages( $args );
-		$export_items  = array();
-
-		if ( $announcements ) {
-			foreach ( $announcements as $announcement ) {
-				$att_urls = [];
-				if ( $attachments = $announcement->get_attachments( false, 'any' ) ) {
-					foreach ( $attachments as $attachment ) {
-						$att_urls[] = apply_filters( 'fep_filter_attachment_download_link', '<a href="' .
-							fep_query_url( 'download', array(
-								'fep_id'        => $attachment->att_id,
-								'fep_parent_id' => $attachment->mgs_id,
-							) )
-						. '">' . esc_html( basename( $attachment->att_file ) ) . '</a>', $attachment->att_id );
-					}
-				}
-
-				$data = array(
-					array(
-						'name'  => __( 'Date', 'front-end-pm' ),
-						'value' => mysql2date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), get_date_from_gmt( $announcement->mgs_created ) ),
-					),
-					array(
-						'name'  => __( 'Title', 'front-end-pm' ),
-						'value' => $announcement->mgs_title,
-					),
-					array(
-						'name'  => __( 'Content', 'front-end-pm' ),
-						'value' => $announcement->mgs_content,
-					),
-				);
-				if ( $att_urls ) {
-					$data[] = [
-						'name'  => __( 'Attachments', 'front-end-pm' ),
-						'value' => implode( '<br>', $att_urls ),
-					];
-				}
-
-				$export_items[] = array(
-					'group_id'    => 'fep_announcement',
-					'group_label' => __( 'Announcements', 'front-end-pm' ),
-					'item_id'     => "fep_announcement-{$announcement->mgs_id}",
-					'data'        => $data,
-				);
-			}
-			$done = false;
-		} else {
-			$done = true;
-		}
-		return array(
-			'data' => $export_items,
-			'done' => $done,
-		);
-	}
-	
 	function register_data_eraser( $erasers ) {
 		$erasers['front-end-pm-messages'] = array(
 			'eraser_friendly_name' => sprintf( __( '%s Messages', 'front-end-pm' ), fep_is_pro() ? 'Front End PM PRO' : 'Front End PM' ),
@@ -553,10 +436,6 @@ class Fep_Admin_Pages {
 		$erasers['front-end-pm-replies'] = array(
 			'eraser_friendly_name' => sprintf( __( '%s Replies', 'front-end-pm' ), fep_is_pro() ? 'Front End PM PRO' : 'Front End PM' ),
 			'callback'             => array( $this, 'data_eraser_replies' ),
-		);
-		$erasers['front-end-pm-announcements'] = array(
-			'eraser_friendly_name' => sprintf( __( '%s Announcements', 'front-end-pm' ), fep_is_pro() ? 'Front End PM PRO' : 'Front End PM' ),
-			'callback'             => array( $this, 'data_eraser_announcements' ),
 		);
 		return $erasers;
 	}
@@ -673,54 +552,6 @@ class Fep_Admin_Pages {
 			'items_removed'  => $items_removed,
 			'items_retained' => $items_retained,
 			'messages'       => $return_mgs,
-			'done'           => $done,
-		);
-	}
-	
-	function data_eraser_announcements( $email_address, $page = 1 ) {
-		$user_id = (int) fep_get_userdata( $email_address, 'ID', 'email' );
-		if ( ! $user_id || 'none' === fep_get_option( 'erase_announcements', 'erase' ) ) {
-			return array(
-				'items_removed'  => false,
-				'items_retained' => false,
-				'messages'       => array(),
-				'done'           => true,
-			);
-		}
-		$args = array(
-			'mgs_type'   => 'announcement',
-			'paged'      => (int) $page,
-			'per_page'   => 50,
-			'mgs_status' => 'any',
-			'mgs_author' => $user_id,
-		);
-		$announcements  = fep_get_messages( $args );
-		$messages = array();
-		$items_removed  = false;
-		$items_retained = false;
-
-		if ( $announcements ) {
-			foreach ( $announcements as $announcement ) {
-				if ( 'erase' === fep_get_option( 'erase_announcements', 'erase' ) ) {
-					$announcement->delete();
-				} else {
-					$update_args = array(
-						'mgs_title'   => wp_privacy_anonymize_data( 'text', $announcement->mgs_title ),
-						'mgs_content' => wp_privacy_anonymize_data( 'longtext', $announcement->mgs_content ),
-					);
-					$announcement->update( $update_args );
-					FEP_Attachments::init()->delete( $announcement->mgs_id );
-				}
-			}
-			$items_removed = true;
-			$done = false;
-		} else {
-			$done = true;
-		}
-		return array(
-			'items_removed'  => $items_removed,
-			'items_retained' => $items_retained,
-			'messages'       => $messages,
 			'done'           => $done,
 		);
 	}

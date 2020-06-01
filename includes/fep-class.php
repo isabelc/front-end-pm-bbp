@@ -77,7 +77,6 @@ if ( ! class_exists( 'fep_main_class' ) ) {
 			global $user_ID;
 			$total_count = fep_get_user_message_count( 'total' );
 			$unread_count = fep_get_user_message_count( 'unread' );
-			$unread_ann_count = fep_get_user_announcement_count( 'unread' );
 			$max_total = fep_get_current_user_max_message_number();
 			$max_text = $max_total ? number_format_i18n( $max_total) : __( 'unlimited', 'front-end-pm' );
 			$template = fep_locate_template( 'header.php' );
