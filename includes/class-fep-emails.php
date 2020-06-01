@@ -41,7 +41,7 @@ class Fep_Emails {
 			$message .= get_bloginfo( 'name' ) . "\r\n";
 			$message .= sprintf( __( 'From: %s', 'front-end-pm' ), fep_user_name( $mgs->mgs_author ) ) . "\r\n";
 			$message .= sprintf( __( 'Subject: %s', 'front-end-pm' ), $mgs->mgs_title ) . "\r\n";
-			$message .= __( 'Please Click the following link to view full Message.', 'front-end-pm' ) . "\r\n";
+			$message .= 'Please follow the link to see the full message:' . "\r\n";
 			$message .= fep_query_url( 'messagebox' ) . "\r\n";
 			if ( 'html' == fep_get_option( 'email_content_type', 'plain_text' ) ) {
 				$message      = nl2br( $message );
