@@ -1254,7 +1254,7 @@ function fep_form_posted() {
 		case 'reply':
 			$parent_id = isset( $_POST['fep_parent_id'] ) ? absint( $_POST['fep_parent_id'] ) : 0;
 			if ( ! fep_current_user_can( 'send_reply', $parent_id ) ) {
-				fep_errors()->add( 'permission', __( 'You do not have permission to send reply to this message!', 'front-end-pm' ) );
+				fep_errors()->add('permission', 'You don\'t have permission to reply to this message.');
 				break;
 			}
 			Fep_Form::init()->validate_form_field( 'reply' );

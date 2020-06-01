@@ -137,14 +137,14 @@ class FEP_REST_API {
 		$messages = Fep_Messages::init()->get_message_with_replies( $mgs_id );
 
 		if ( ! fep_current_user_can( 'view_message', $mgs_id ) ) {
-			return new WP_Error( 'no_permission', esc_html__( 'You do not have permission to view this message!', 'front-end-pm' ), array( 'status' => 404 ) );
+			return new WP_Error( 'no_permission', 'You do not have permission to view this message!', array( 'status' => 404 ) );
 		}
 
 		if ( ! $messages->have_messages() ) {
 			$response['show_reply_form'] = false;
 		} elseif ( ! fep_current_user_can( 'send_reply', $mgs_id ) ) {
 			$response['show_reply_form']       = false;
-			$response['show_reply_form_error'] = '<div class="fep-error">' . esc_html__( 'You do not have permission to send reply to this message!', 'front-end-pm' ) . '</div>';
+			$response['show_reply_form_error'] = '<div class="fep-error">You don\'t have permission to reply to this message.</div>';
 		} else {
 			$response['show_reply_form'] = true;
 		}

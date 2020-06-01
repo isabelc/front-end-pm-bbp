@@ -29,7 +29,7 @@ if ( fep_get_option( 'block_other_users', 1 ) ) {
 		<div id="fep-content-single-reply-form-error">
 			<?php
 			if ( ! fep_current_user_can( 'send_reply', $parent_id ) ) {
-				echo '<div class="fep-error">' . esc_html__( 'You do not have permission to send reply to this message!', 'front-end-pm' ) . '</div>';
+				echo '<div class="fep-error">You don\'t have permission to reply to this message.</div>';
 			} elseif ( fep_success()->get_error_messages() ) {
 				echo fep_info_output();
 			}
