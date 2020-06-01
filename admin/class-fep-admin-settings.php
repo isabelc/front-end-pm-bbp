@@ -452,9 +452,6 @@ class Fep_Admin_Settings {
 			case 'number':
 				?><input id="<?php echo esc_attr( $field['id'] ); ?>" class="<?php echo $field['class']; ?>" type="<?php echo esc_attr( $field['type'] ); ?>" name="<?php echo esc_attr( $field['name'] ); ?>" placeholder="<?php echo esc_attr( $field['placeholder'] ); ?>" value="<?php echo esc_attr( stripslashes( $field['value' ] ) ); ?>" <?php echo $attrib; ?> /><?php
 				break;
-			case 'color_picker':
-				?><input type="text" name="<?php echo esc_attr( $field['name'] ); ?>" value="<?php echo esc_attr( stripslashes( $field['value' ] ) ); ?>" class="fep-color-picker" data-default-color="<?php echo esc_attr( $field['default_value'] ); ?>" ><?php
-				break;
 			case 'textarea':
 				?><textarea id="<?php echo esc_attr( $field['id'] ); ?>" class="<?php echo $field['class']; ?>" cols="50" name="<?php echo esc_attr( $field['name'] ); ?>" placeholder="<?php echo esc_attr( $field['placeholder'] ); ?>" <?php echo $attrib; ?>><?php echo wp_kses_post( stripslashes( $field['value' ] ) ); ?></textarea><?php
 				break;
@@ -505,12 +502,6 @@ class Fep_Admin_Settings {
 			case 'email': //sanitize_email()
 				if ( ! is_email( $value ) ) {
 					add_settings_error( 'fep-settings', $field['id'], sprintf( __( 'Provide valid email address for %s', 'front-end-pm' ), $field['label'] ) );
-					$sanitized = $field['value'];
-				}
-				break;
-			case 'color_picker':
-				if ( ! preg_match( '/^#[a-f0-9]{6}$/i', $value ) ) { // if user insert a HEX color with #
-					add_settings_error( 'fep-settings', $field['id'], sprintf( __( 'Provide valid color for %s', 'front-end-pm' ), $field['label'] ) );
 					$sanitized = $field['value'];
 				}
 				break;
