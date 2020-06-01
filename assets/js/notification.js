@@ -1,7 +1,6 @@
 jQuery( document ).ready( function($) {
 	var fep_notification_block_count = 0,
-		fep_interval_ms = 60000;// @test now now
-
+		fep_interval_ms = 60000;
 
 	function fep_notification_ajax_call( bypass_local ) {
 		bypass_local = typeof bypass_local === 'undefined' ? false : bypass_local;
@@ -62,10 +61,8 @@ jQuery( document ).ready( function($) {
 
 		if ( response['message_unread_count'] ) {
 			$( '.fep_unread_message_count_hide_if_zero' ).show();
-			$( '.fep_hide_if_anyone_zero' ).show();
 		} else {
 			$( '.fep_unread_message_count_hide_if_zero' ).hide();
-			$( '.fep_hide_if_anyone_zero' ).hide();
 		}
 
 		$( document ).trigger( 'fep_notification', response );

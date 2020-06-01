@@ -252,27 +252,12 @@ class FEP_REST_API {
 
 		$mgs_unread_count = fep_get_new_message_number();
 		$mgs_total_count  = fep_get_user_message_count( 'total' );
-		$prev             = get_user_meta( get_current_user_id(), '_fep_notification_prev', true );
 
-		$new = array(
-			'message'      => $mgs_unread_count,
-		);
-		update_user_meta( get_current_user_id(), '_fep_notification_prev', $new );
-
-		if ( ! is_array( $prev ) ) {
-			$prev = array();
-		}
-		// @test need all these?
 		$response = array(
 			'message_unread_count'           => $mgs_unread_count,
-			'message_unread_count_i18n'      => number_format_i18n( $mgs_unread_count ),
-			'message_unread_count_text'      => sprintf( _n( '%s message', '%s messages', $mgs_unread_count, 'front-end-pm' ), number_format_i18n( $mgs_unread_count ) ),
-			'message_total_count'            => $mgs_total_count,
-			'message_total_count_i18n'       => number_format_i18n( $mgs_total_count ),
-			'message_unread_count_prev'      => empty( $prev['message'] ) ? 0 : absint( $prev['message'] ),
+			'message_unread_count_text'      => sprintf( _n( '%s message', '%s messages', $mgs_unread_count, 'front-end-pm' ), $mgs_unread_count ),
+			'message_total_count'            => $mgs_total_count
 		);
-		$response = apply_filters( 'fep_filter_notification_response', $response );
-
 		return rest_ensure_response( $response );
 	}
 	public function notification_dismiss( $request ) {
