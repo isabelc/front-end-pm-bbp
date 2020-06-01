@@ -1077,42 +1077,6 @@ function fep_backticker_code_input_filter( $message ) {
 	$message['message_content'] = fep_backticker_display_code( $message['message_content'] );
 	return $message;
 }
-function fep_notification_div() {
-	if ( ! fep_current_user_can( 'access_message' ) ) {
-		return;
-	}
-	if ( ! fep_get_option( 'show_notification', 1 ) ) {
-		return;
-	}
-	wp_enqueue_script( 'fep-notification-script' );
-	$unread_count = fep_get_new_message_number();
-	$sm = sprintf( _n( '%s message', '%s messages', $unread_count, 'front-end-pm' ), number_format_i18n( $unread_count ) );
-	$class = 'fep-notification-bar';
-	if ( ! $unread_count ) {
-		$class .= ' fep-hide';
-	} elseif ( get_user_meta( get_current_user_id(), '_fep_notification_dismiss', true ) ) {
-		$class .= ' fep-hide';
-	}
-	$show = '<div id="fep-notification-bar" class="' . $class . '"><p>';
-	$show .= __( 'You have', 'front-end-pm' );
-	$class = 'fep_unread_message_count_hide_if_zero';
-	if ( ! $unread_count ) {
-		$class .= ' fep-hide';
-	}
-	$show .= '<span class="' . $class . '"> <a href="' . fep_query_url( 'messagebox' ) . '"><span class="fep_unread_message_count_text">' . $sm . '</span></a></span>';
-	$class = 'fep_hide_if_anyone_zero';
-	if ( ! $unread_count ) {
-		$class .= ' fep-hide';
-	}
-	$show .= '<span class="' . $class . '"> ' . __( 'and', 'front-end-pm' ) . '</span>';
-	$show .= ' ';
-	$show .= __( 'unread', 'front-end-pm' );
-	$show .= '</p>';
-	$show .= '<button aria-label="' . esc_attr( 'Dismiss notice', 'front-end-pm' ) . '" class="fep-notice-dismiss">×</button>';
-	$show .= '</div>';
-	echo apply_filters( 'fep_header_notification', $show );
-}
-
 function fep_auth_redirect() {
 	if ( ! fep_page_id() || ( ! is_page( fep_page_id() ) && ! is_single( fep_page_id() ) ) ) {
 		return;

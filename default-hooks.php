@@ -10,8 +10,6 @@ add_action( 'after_setup_theme', 'fep_include_require_files' );
 add_action( 'wp_enqueue_scripts', 'fep_enqueue_scripts' );
 add_action( 'wp_enqueue_scripts', 'fep_common_scripts' );
 add_action( 'admin_enqueue_scripts', 'fep_common_scripts' );
-
-add_action( 'wp_head', 'fep_notification_div', 99 );
 add_action( 'template_redirect','fep_auth_redirect', 99 );
 add_filter( 'auth_redirect_scheme', 'fep_auth_redirect_scheme' );
 
