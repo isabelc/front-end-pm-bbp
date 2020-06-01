@@ -1178,16 +1178,16 @@ function fep_form_posted() {
 		case ( 'newmessage' == $action && ! empty( $menu['newmessage'] ) ):
 		case 'shortcode-newmessage':
 			if ( ! fep_current_user_can( 'send_new_message' ) ) {
-				fep_errors()->add( 'permission', __( 'You do not have permission to send new message!', 'front-end-pm' ) );
+				fep_errors()->add('permission', 'You do not have permission to send new message.');
 				break;
 			}
 			Fep_Form::init()->validate_form_field( $action );
 			if ( count( fep_errors()->get_error_messages() ) == 0 ) {
 				if ( $message_id = fep_send_message() ) {
 					if ( 'publish' == fep_get_message_status( $message_id ) ) {
-						fep_success()->add( 'publish', __( 'Message successfully sent.', 'front-end-pm' ) );
+						fep_success()->add('publish', 'Message sent.');
 					} else {
-						fep_success()->add( 'pending', __( 'Message successfully sent and waiting for admin moderation.', 'front-end-pm' ) );
+						fep_success()->add( 'pending', 'Message sent and waiting for admin moderation.' );
 					}
 				} else {
 					fep_errors()->add( 'undefined', __( 'Something wrong. Please try again.', 'front-end-pm' ) );
@@ -1204,9 +1204,9 @@ function fep_form_posted() {
 			if ( 0 == count( fep_errors()->get_error_messages() ) ) {
 				if ( $message_id = fep_send_message() ) {
 					if ( 'publish' == fep_get_message_status( $message_id ) ) {
-						fep_success()->add( 'publish', __( 'Message successfully sent.', 'front-end-pm' ) );
+						fep_success()->add('publish', 'Message sent.');
 					} else {
-						fep_success()->add( 'pending', __( 'Message successfully sent and waiting for admin moderation.', 'front-end-pm' ) );
+						fep_success()->add( 'pending', __( 'Message sent and waiting for admin moderation.', 'front-end-pm' ) );
 					}
 				} else {
 					fep_errors()->add( 'undefined', __( 'Something wrong. Please try again.', 'front-end-pm' ) );
