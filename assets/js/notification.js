@@ -1,5 +1,4 @@
 jQuery( document ).ready( function($) {
-	var fep_notification_block_count = 0;
 	function fep_notification_ajax_call( bypass_local ) {
 		bypass_local = typeof bypass_local === 'undefined' ? false : bypass_local;
 		if( fep_is_storage_available('localStorage') ){
@@ -11,14 +10,6 @@ jQuery( document ).ready( function($) {
 				return;
 			}
 		}
-		if ( document.hidden || document.msHidden || document.mozHidden || document.webkitHidden ) {
-			if ( fep_notification_block_count < fep_notification_script.skip ) {
-				fep_notification_block_count++;
-				return;	
-			}
-		}
-		fep_notification_block_count = 0;
-		
 		$.ajax({
 			url: fep_notification_script.root +'/notification',
 			method: 'GET',
@@ -37,7 +28,6 @@ jQuery( document ).ready( function($) {
 		});
 	}
 	function fep_update_notification( response ){
-		//console.log(  response );
 		$( '.fep_unread_message_count' ).html( response['message_unread_count_i18n'] );
 		$( '.fep_total_message_count' ).html( response['message_total_count_i18n'] );
 		$( '.fep_unread_message_count_text' ).html( response['message_unread_count_text'] );
@@ -91,8 +81,10 @@ jQuery( document ).ready( function($) {
 
 	if ( fep_notification_script.call_on_ready ) {
 		fep_notification_ajax_call( true );
+
+		setInterval( fep_notification_ajax_call, parseInt( fep_notification_script.interval, 10 ) );
 	}
-	setInterval( fep_notification_ajax_call, parseInt( fep_notification_script.interval, 10 ) );
+	
 
 	$( '.fep-notification-bar .fep-notice-dismiss' ).on( 'click', function() {
 		$( this ).parent().hide( 'slow' );
