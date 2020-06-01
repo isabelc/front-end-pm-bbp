@@ -28,9 +28,6 @@ jQuery( document ).ready( function($) {
 				xhr.setRequestHeader( 'X-WP-Nonce', fep_notification_script.nonce );
 			}
 		}).done( function( response ) {
-			if ( '1' == fep_notification_script.show_in_desktop ) {
-				fep_desktop_notification( response );
-			}
 			if ( '1' == fep_notification_script.play_sound
 			&& ( response['message_unread_count'] )
 			&& ( response['message_unread_count'] > response['message_unread_count_prev'] ) ) {
@@ -92,59 +89,6 @@ jQuery( document ).ready( function($) {
 				(storage && storage.length !== 0);
 		}
 	}
-
-	function fep_desktop_notification( response ) {
-		// console.log( response );
-		// Let's check if the browser supports notifications
-		if ( 'Notification' in window ) {
-			if ( 'denied' === Notification.permission ) {
-				//denied, so nothing to do
-			} else if ( 'default' === Notification.permission ) {
-				Notification.requestPermission();
-				if ( 'granted' === Notification.permission ) {
-					fep_desktop_notification_show( response );
-				}
-			} else {
-				fep_desktop_notification_show( response );
-			}
-		} else if ( 'webkitNotifications' in window ) {
-			fep_desktop_notification_show( response );
-		} else if ( 'mozNotification' in navigator ) {
-			fep_desktop_notification_show( response );
-		}
-	}
-
-	function fep_desktop_notification_show( response ) {
-		var title, body, link, notification;
-
-		//Multiple notification in same time create issue in Firefox.
-		if ( response['message_unread_count']
-		&& response['message_unread_count'] > response['message_unread_count_prev'] ) {
-			title = fep_notification_script.mgs_notification_title;
-			body = fep_notification_script.mgs_notification_body;
-			link = fep_notification_script.mgs_notification_url;
-		} else {
-			return false;
-		}
-		if ( 'Notification' in window ) {
-			notification = new Notification(
-				title, {
-					body: body,
-					icon: fep_notification_script.icon_url
-				}
-			);
-			notification.onclick = function ( event ) {
-				location.href = link;
-			};
-			notification.onerror = function ( event ) {};
-		} else if ( 'webkitNotifications' in window ) {
-			notification = window.webkitNotifications.createNotification( fep_notification_script.icon_url, title, body );
-			notification.show();
-		} else if ( 'mozNotification' in navigator ) {
-			notification = navigator.mozNotification.createNotification( title, body, fep_notification_script.icon_url );
-			notification.show();
-		}
-	}
 	window.addEventListener('storage', function (e) {
 		if ( 'fep_notification_response' == e.key ) {
 			fep_update_notification( JSON.parse( e.newValue ) );
@@ -153,9 +97,6 @@ jQuery( document ).ready( function($) {
 
 	if ( fep_notification_script.call_on_ready ) {
 		fep_notification_ajax_call( true );
-	}
-	if ( '1' == fep_notification_script.show_in_desktop && ( 'Notification' in window ) && 'default' === Notification.permission ) {
-		Notification.requestPermission();
 	}
 	setInterval( fep_notification_ajax_call, parseInt( fep_notification_script.interval, 10 ) );
 

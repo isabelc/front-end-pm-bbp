@@ -460,15 +460,6 @@ class Fep_Admin_Settings {
 				'cb_label'	=> __( 'Can user reply messages deleted by other user?', 'front-end-pm' ),
 			),
 			//Notification Settings
-			'show_unread_count_in_desktop' => array(
-				'type'		=> 'checkbox',
-				'value'		=> fep_get_option( 'show_unread_count_in_desktop', 1 ),
-				'priority'	=> 15,
-				'section'	=> 'notification',
-				'class'		=> '',
-				'label'		=> __( 'Show desktop notification', 'front-end-pm' ),
-				'cb_label'	=> __( 'Show desktop notification for new messages?', 'front-end-pm' ),
-			),
 			'play_sound' => array(
 				'type'		=> 'checkbox',
 				'value'		=> fep_get_option( 'play_sound', 1 ),
