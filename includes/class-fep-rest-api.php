@@ -147,6 +147,7 @@ class FEP_REST_API {
 	}
 
 	function message_heads( $request ) {
+		isa_log('@test in rest callback message_heads');// @test if this is never used, can remove this rest route
 		$response           = [];
 		$_GET['feppage']    = $request->get_param( 'feppage' );
 		$_GET['fep-filter'] = $request->get_param( 'fep_filter' ); // fep-filter not working with hyphen so use fep_filter (without hyphen).
@@ -240,10 +241,8 @@ class FEP_REST_API {
 
 	public function notification( $request ) {
 		$response = [];
-
 		$mgs_unread_count = fep_get_new_message_number();
 		$mgs_total_count  = fep_get_user_message_count( 'total' );
-
 		$response = array(
 			'message_unread_count'           => $mgs_unread_count,
 			'message_unread_count_text'      => sprintf( _n( '%s message', '%s messages', $mgs_unread_count, 'front-end-pm' ), $mgs_unread_count ),
