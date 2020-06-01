@@ -200,13 +200,6 @@ class Fep_Admin_Settings {
 				'cb_label'	 => __( 'Show Directory in front end?', 'front-end-pm' ),
 				'description'=> __( 'Always shown to Admins.', 'front-end-pm' ),
 			),
-			'show_branding'	=> array(
-				'type'		=> 'checkbox',
-				'value'		=> fep_get_option( 'show_branding', 1 ),
-				'priority'	=> 30,
-				'class'		=> '',
-				'label'		=> __( 'Show Branding Footer', 'front-end-pm' ),
-			),
 			'delete_data_on_uninstall' => array(
 				'type'		 => 'checkbox',
 				'value'		 => fep_get_option( 'delete_data_on_uninstall', false ),

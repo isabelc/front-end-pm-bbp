@@ -1077,15 +1077,6 @@ function fep_backticker_code_input_filter( $message ) {
 	$message['message_content'] = fep_backticker_display_code( $message['message_content'] );
 	return $message;
 }
-
-function fep_footer_credit() {
-	$style = '';
-	if ( ! fep_get_option( 'show_branding', 1 ) ) {
-		$style = ' style="display:none;"';
-	}
-	echo '<div' . $style . '><a href="https://www.shamimsplugins.com/products/front-end-pm-pro/" target="_blank">Front End PM</a></div>';
-}
-
 function fep_notification_div() {
 	if ( ! fep_current_user_can( 'access_message' ) ) {
 		return;
