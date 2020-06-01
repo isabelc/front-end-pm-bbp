@@ -1,6 +1,5 @@
 jQuery( document ).ready( function($) {
 	var fep_notification_block_count = 0;
-	var fep_sound = new Audio( fep_notification_script.sound_url );
 	function fep_notification_ajax_call( bypass_local ) {
 		bypass_local = typeof bypass_local === 'undefined' ? false : bypass_local;
 		if( fep_is_storage_available('localStorage') ){
@@ -28,11 +27,6 @@ jQuery( document ).ready( function($) {
 				xhr.setRequestHeader( 'X-WP-Nonce', fep_notification_script.nonce );
 			}
 		}).done( function( response ) {
-			if ( '1' == fep_notification_script.play_sound
-			&& ( response['message_unread_count'] )
-			&& ( response['message_unread_count'] > response['message_unread_count_prev'] ) ) {
-				fep_sound.play();
-			}
 			if ( fep_is_storage_available('localStorage') ) {
 				localStorage.setItem( 'fep_notification_time', new Date().getTime() );
 				localStorage.setItem( 'fep_notification_response', JSON.stringify( response ) );

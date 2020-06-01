@@ -459,16 +459,6 @@ class Fep_Admin_Settings {
 				'label'		=> __( 'Reply Deleted Message', 'front-end-pm' ),
 				'cb_label'	=> __( 'Can user reply messages deleted by other user?', 'front-end-pm' ),
 			),
-			//Notification Settings
-			'play_sound' => array(
-				'type'		=> 'checkbox',
-				'value'		=> fep_get_option( 'play_sound', 1 ),
-				'priority'	=> 20,
-				'section'	=> 'notification',
-				'class'		=> '',
-				'label'		=> __( 'Play Sound', 'front-end-pm' ),
-				'cb_label'	=> __( 'Play notification sound on message received?', 'front-end-pm' ),
-			),
 		);
 		foreach ( $user_role as $key => $role ) {
 			$fields["message_box_{$key}"] = array(
@@ -741,14 +731,8 @@ class Fep_Admin_Settings {
 				'priority'		=> 15,
 				'tab_output'	=> false,
 			),
-			'notification' => array(
-				'section_title'	=> __( 'Notification', 'front-end-pm' ),
-				'section_page'	=> 'fep_settings_misc',
-				'priority'		=> 10,
-				'tab_output'	=> false,
-			),
 			'message_box' => array(
-				'section_title'	=> __( 'Message Box', 'front-end-pm' ),
+				'section_title'	=> 'Max # of Messages Allowed To Sit In Box',
 				'section_page'	=> 'fep_settings_misc',
 				'priority'		=> 15,
 				'tab_output'	=> false,

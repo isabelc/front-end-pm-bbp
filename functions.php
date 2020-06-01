@@ -252,8 +252,6 @@ function fep_enqueue_scripts() {
 				'interval'	=> apply_filters( 'fep_filter_ajax_notification_interval', MINUTE_IN_SECONDS * 1000 ),
 				'skip'		=> apply_filters( 'fep_filter_skip_notification_call', 2 ), // How many times notification ajax call will be skipped if browser tab not opened
 				'call_on_ready'		=> $call_on_ready,
-				'play_sound'		=> fep_get_option( 'play_sound', '1' ),
-				'sound_url'			=> FEP_PLUGIN_URL . 'assets/audio/plucky.mp3',
 				'icon_url'			=> FEP_PLUGIN_URL . 'assets/images/desktop-notification-32.png',
 				'mgs_notification_title'=> __( 'New Message. ', 'front-end-pm' ),
 				'mgs_notification_body'	=> __( 'You have received a new message. ', 'front-end-pm' ),
