@@ -33,43 +33,6 @@
 	font-size: 14px;
 }
 
-#fep-notification-bar {
-	-khtml-border-radius: 3px;
-	-moz-border-radius: 3px;
-	-moz-box-sizing: border-box;
-	-webkit-border-radius: 3px;
-	-webkit-box-sizing: border-box;
-	background-color: #ffebe8;
-	border-color: #c00;
-	border-radius: 3px;
-	border-style: solid;
-	border-width: 1px;
-	box-sizing: border-box;
-	color: black;
-	font-size: 12px;
-	font-weight: bold;
-	padding: 12px;
-	position: relative;
-	text-align: center;
-	width: 100%;
-	z-index: 999999;
-}
-
-.fep-notification-bar p {
-	margin: 0;
-}
-.fep-notification-bar .fep-notice-dismiss {
-	background: none;
-	border: 0;
-	color: black;
-	cursor: pointer;
-	font-size: 24px;
-	padding: 12px;
-	position: absolute;
-	right: 10px;
-	top: 0;
-}
-
 .fep-font-red {
 	color: #ff0000;
 }

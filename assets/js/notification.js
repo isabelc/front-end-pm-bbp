@@ -41,12 +41,6 @@ jQuery( document ).ready( function($) {
 			$( '.fep_hide_if_anyone_zero' ).hide();
 		}
 
-		if ( response['notification_bar'] ) {
-			$( '.fep-notification-bar' ).show();
-		} else{
-			$( '.fep-notification-bar' ).hide();
-		}
-	
 		$( document ).trigger( 'fep_notification', response );
 	}
 	function fep_is_storage_available(type) {
@@ -84,17 +78,4 @@ jQuery( document ).ready( function($) {
 
 		setInterval( fep_notification_ajax_call, parseInt( fep_notification_script.interval, 10 ) );
 	}
-	
-
-	$( '.fep-notification-bar .fep-notice-dismiss' ).on( 'click', function() {
-		$( this ).parent().hide( 'slow' );
-		$.ajax({
-			url: fep_notification_script.root +'/notification/dismiss',
-			method: 'GET',
-			dataType: 'json',
-			beforeSend: function ( xhr ) {
-				xhr.setRequestHeader( 'X-WP-Nonce', fep_notification_script.nonce );
-			}
-		})
-	});
 });
