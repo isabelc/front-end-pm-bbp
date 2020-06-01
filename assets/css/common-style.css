@@ -1,3 +1,11 @@
+#fep-wrapper {
+ background-color:#ffffff;
+ color:#000000;
+}
+#fep-wrapper a {
+ color:#000080;
+}
+
 /* Menu Styling */
 #fep-menu {
 	/* color: #333; */
@@ -11,10 +19,9 @@
 .fep-button-active {
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
-	/* background: #f0fcff; */
 	border-radius: 5px;
 	border: 1px solid #8FBFC9;
-	/* color: #000000 !important; */
+	color:#000000;
 	cursor: pointer;
 	display: inline-block;
 	font-size: 13px;
@@ -26,10 +33,14 @@
 	text-decoration: none !important;
 }
 
+.fep-button {
+ background-color:#F0FCFF;
+
+}
 #fep-menu .fep-button:hover,
 .fep-button-active {
-	/* background: #d3eef5; */
-	/* color: #333; */
+	 background: #d3eef5; 
+	color:#000000;
 	font-size: 14px;
 }
 
@@ -108,4 +119,21 @@
 	text-align: center;
 	line-height: 30px;
 	color: white;
+}
+
+
+.fep-odd-even > div:nth-child(odd) {
+ background-color:#F2F7FC;
+}
+.fep-odd-even > div:nth-child(even) {
+ background-color:#FAFAFA;
+}
+.fep-message .fep-message-title-heading,
+.fep-per-message .fep-message-title {
+ background-color:#F2F7FC;
+}
+#fep-content-single-heads .fep-message-head:hover,
+#fep-content-single-heads .fep-message-head-active {
+ background-color:#D3EEF5;
+ color:#000000;
 }
