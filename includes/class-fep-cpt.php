@@ -47,7 +47,7 @@ class Fep_Cpt {
 			'not_found' 		=>  __( 'No Messages found', 'front-end-pm' ),
 			'not_found_in_trash'=> __( 'No Messages found in Trash', 'front-end-pm' ),
 			'parent_item_colon' => '',
-			'menu_name' 		=> fep_is_pro() ? 'Front End PM PRO' : 'Front End PM'
+			'menu_name' 		=> 'Front End PM'
 		);
 		$args = array(
 			'labels' 			=> apply_filters( 'fep_message_cpt_labels', $labels ),

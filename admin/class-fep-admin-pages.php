@@ -24,7 +24,7 @@ class Fep_Admin_Pages {
 
 	function addAdminPage() {
 		$admin_cap = apply_filters( 'fep_admin_cap', 'manage_options' );
-		$label = fep_is_pro() ? 'Front End PM PRO' : 'Front End PM';
+		$label = 'Front End PM';
 		
 		add_menu_page( $label, $label, $admin_cap, 'fep-all-messages', array( $this, 'all_messages' ), 'dashicons-email', 30 );
 		
@@ -353,7 +353,7 @@ class Fep_Admin_Pages {
 	
 	function register_data_exporter( $exporters ){
 		$exporters['front-end-pm-messages'] = array(
-			'exporter_friendly_name' => sprintf( __( '%s Messages', 'front-end-pm' ), fep_is_pro() ? 'Front End PM PRO' : 'Front End PM' ),
+			'exporter_friendly_name' => 'Front End PM Messages',
 			'callback'               => array( $this, 'data_exporter_messages' ),
 		);
 		return $exporters;
@@ -430,11 +430,11 @@ class Fep_Admin_Pages {
 	}
 	function register_data_eraser( $erasers ) {
 		$erasers['front-end-pm-messages'] = array(
-			'eraser_friendly_name' => sprintf( __( '%s Messages', 'front-end-pm' ), fep_is_pro() ? 'Front End PM PRO' : 'Front End PM' ),
+			'eraser_friendly_name' => 'Front End PM Messages',
 			'callback'             => array( $this, 'data_eraser_messages' ),
 		);
 		$erasers['front-end-pm-replies'] = array(
-			'eraser_friendly_name' => sprintf( __( '%s Replies', 'front-end-pm' ), fep_is_pro() ? 'Front End PM PRO' : 'Front End PM' ),
+			'eraser_friendly_name' => 'Front End PM Replies',
 			'callback'             => array( $this, 'data_eraser_replies' ),
 		);
 		return $erasers;

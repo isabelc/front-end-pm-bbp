@@ -204,7 +204,7 @@ class Fep_Admin_Settings {
 				'priority'	 => 35,
 				'class'		 => '',
 				'label'		 => __( 'Remove Data on Uninstall?', 'front-end-pm' ),
-				'description'=> '<div style="color:red">' . sprintf( __( 'Check this box if you would like %s to completely remove all of its data when the plugin is deleted.', 'front-end-pm' ), fep_is_pro() ? 'Front End PM PRO' : 'Front End PM' ) . '</div>',
+				'description'=> '<div style="color:red">Check this box if you would like Front End PM to completely remove all of its data when the plugin is deleted.</div>',
 			),
 			'load_css' => array(
 				'type'		 => 'select',
@@ -751,9 +751,6 @@ class Fep_Admin_Settings {
 	 */
 	public function notice_review() {
 		if ( ! current_user_can( 'manage_options' ) ) {
-			return;
-		}
-		if ( fep_is_pro() ) {
 			return;
 		}
 		if ( fep_get_option( 'dismissed-review' ) ) {
