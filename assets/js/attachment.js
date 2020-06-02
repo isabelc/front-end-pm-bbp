@@ -1,4 +1,9 @@
 jQuery( document ).ready( function( $ ) {
+	$('#fep-toggle-attach').click(function () {
+	    $('.fep-form-field-fep_upload').slideToggle();
+	    $(this).toggleClass('fep-toggle-attach-active');
+	    $('#fep-toggle-wrap, .fep-form-field-fep_upload').toggleClass('palebg');
+	});
 	$( document ).on( 'click', '#fep-attachment-field-add', function( e ) {
 		e.preventDefault();
 			
