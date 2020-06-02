@@ -581,12 +581,12 @@ class Fep_Form {
 		} else {
 			$button_val = __( 'Send Message', 'front-end-pm' );
 		}
-		echo apply_filters( 'fep_form_submit_button', '<button type="submit" class="fep-button">' . esc_html( $button_val ) . '</button>', $where );
+		echo '<button type="submit">' . esc_html( $button_val ) . '</button>';
 		
 		echo '</form>';
 		echo '</div>';
 		
-		return apply_filters( 'fep_filter_form_output', ob_get_clean(), $where );
+		return ob_get_clean();
 	}
 
 	public function validate_form_field( $where = 'newmessage' ){

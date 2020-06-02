@@ -68,7 +68,7 @@ if ( ! class_exists( 'fep_main_class' ) ) {
 				//Add footer
 				$out .= $this->Footer();
 			} else { 
-				$out = '<div class="fep-error">' . sprintf( __( 'You must <a href="%s">login</a> to view your message.', 'front-end-pm' ), wp_login_url( get_permalink() ) ) . '</div>';
+				$out = '<div class="fep-error">' . sprintf( '<a href="%s">Log in</a> to view your messages.', wp_login_url( get_permalink() ) ) . '</div>';
 			}
 			return apply_filters( 'fep_main_shortcode_output', $out);
 		}

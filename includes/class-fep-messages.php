@@ -365,7 +365,7 @@ class Fep_Messages {
 				break;
 			case 'title':
 				if ( ! fep_is_read( true ) ) {
-					$span = '<span class="fep-unread-classp"><span class="fep-unread-class">' . __( 'Unread', 'front-end-pm' ) . '</span></span>';
+					$span = '<span class="fep-unread-classp"><span class="fep-unread-class">Unread</span></span>';
 					$class = ' fep-strong';
 				} else {
 					$span = '';

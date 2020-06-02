@@ -38,30 +38,27 @@ if ( $messages->have_messages() ) {
 			if ( $i === 1 ) {
 				?>
 				<div class="fep-per-message fep-per-message-top fep-per-message-<?php echo fep_get_the_id(); ?>">
-					<div class="fep-message-title-heading"><?php echo fep_get_the_title(); ?></div>
-					<div class="fep-message-title-heading participants"><?php esc_html_e( 'Participants', 'front-end-pm' ); ?>: <?php
-					if( $group = apply_filters( 'fep_is_group_message', false, fep_get_the_id() ) ){
-						echo esc_html( $group );
-					} else {
+					
+					<div class="fep-message-title-heading participants">Messaging with <?php
+					
 						$participants = fep_get_participants( fep_get_the_id() );
 						$par = array();
 						foreach ( $participants as $participant ) {
 							if ( get_current_user_id() != $participant && fep_get_option( 'block_other_users', 1 ) ) {
 								if ( fep_is_user_blocked_for_user( get_current_user_id(), $participant ) ) {
-									$par[] = fep_user_name( $participant ) . '(<a href="#" class="fep_block_unblock_user fep_user_blocked" data-user_id="' . $participant . '" data-user_name="' . esc_attr( fep_user_name( $participant ) ) . '">' . esc_html__( 'Unblock', 'front-end-pm' ) . '</a>)';
+									$par[] = fep_user_name( $participant ) . '(<a href="#" class="fep_block_unblock_user fep_user_blocked" data-user_id="' . $participant . '" data-user_name="' . esc_attr( fep_user_name( $participant ) ) . '">Unblock</a>)';
 								} else {
-									$par[] = fep_user_name( $participant ) . '(<a href="#" class="fep_block_unblock_user" data-user_id="' . $participant . '" data-user_name="' . esc_attr( fep_user_name( $participant ) ) . '">' . esc_html__( 'Block', 'front-end-pm' ) . '</a>)';
+									$par[] = fep_user_name( $participant ) . '(<a href="#" class="fep_block_unblock_user" data-user_id="' . $participant . '" data-user_name="' . esc_attr( fep_user_name( $participant ) ) . '">Block</a>)';
 								}
-							} else {
-								$par[] = fep_user_name( $participant );
 							}
 						}
 						echo apply_filters( 'fep_filter_display_participants', implode( ', ', $par ), $par, $participants );
-					}
+					
 					?></div>
+					<div class="fep-message-title-heading"><?php echo fep_get_the_title(); ?></div>
 					<?php if ( $toggle_feature ) { ?>
 					<div class="fep-align-right">
-						<button class="fep-button fep-message-toggle-all"><?php esc_html_e( 'Toggle Messages', 'front-end-pm' ); ?></button>
+						<button class="fep-button fep-message-toggle-all">Toggle Messages</button>
 					</div>
 					<?php } ?>
 				</div>
