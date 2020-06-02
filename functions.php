@@ -193,14 +193,14 @@ function fep_update_user_option( $option, $value = '', $userid = '', $section = 
 }
 
 function fep_enqueue_scripts() {
-	wp_register_style( 'fep-style', FEP_PLUGIN_URL . 'assets/css/style.css', array(), FEP_PLUGIN_VERSION );
+	wp_register_style( 'fep-style', FEP_PLUGIN_URL . 'assets/css/style.css', array(), null );
 	if ( 'always' == fep_get_option( 'load_css','only_in_message_page' ) ) {
 		wp_enqueue_style( 'fep-style' );
 	} elseif ( 'only_in_message_page' == fep_get_option( 'load_css','only_in_message_page' ) &&
 				fep_page_id() && ( is_page( fep_page_id() ) || is_single( fep_page_id() ) ) ) {
 		wp_enqueue_style( 'fep-style' );
 	}
-	wp_register_script( 'fep-script', FEP_PLUGIN_URL . 'assets/js/script.js', array( 'jquery' ), FEP_PLUGIN_VERSION, true );
+	wp_register_script( 'fep-script', FEP_PLUGIN_URL . 'assets/js/script.js', array( 'jquery' ), null, true );
 	wp_localize_script( 'fep-script', 'fep_script',
 		array(
 			'root'    => esc_url_raw( rest_url( 'front-end-pm/v1' ) ),
@@ -208,7 +208,7 @@ function fep_enqueue_scripts() {
 			'no_match'   => __( 'No matches found', 'front-end-pm' ),
 		)
 	);
-	wp_register_script( 'fep-notification-script', FEP_PLUGIN_URL . 'assets/js/notification.js', array( 'jquery' ), FEP_PLUGIN_VERSION, true );
+	wp_register_script( 'fep-notification-script', FEP_PLUGIN_URL . 'assets/js/notification.js', array( 'jquery' ), null, true );
 	$call_on_ready = ( isset( $_GET['fepaction'] ) &&
 		( 'viewmessage' == $_GET['fepaction'] && fep_get_new_message_number() ) ) ? true : false;
 	wp_localize_script( 'fep-notification-script', 'fep_notification_script',
@@ -218,15 +218,15 @@ function fep_enqueue_scripts() {
 				'call_on_ready'		=> $call_on_ready,
 			)
 	);
-	wp_register_script( 'fep-replies-show-hide', FEP_PLUGIN_URL . 'assets/js/replies-show-hide.js', array( 'jquery' ), FEP_PLUGIN_VERSION, true );
-	wp_register_script( 'fep-attachment-script', FEP_PLUGIN_URL . 'assets/js/attachment.js', array( 'jquery' ), FEP_PLUGIN_VERSION, true );
+	wp_register_script( 'fep-replies-show-hide', FEP_PLUGIN_URL . 'assets/js/replies-show-hide.js', array( 'jquery' ), null, true );
+	wp_register_script( 'fep-attachment-script', FEP_PLUGIN_URL . 'assets/js/attachment.js', array( 'jquery' ), null, true );
 	wp_localize_script( 'fep-attachment-script', 'fep_attachment_script', array(
 			'remove'	=> esc_js( __( 'Remove', 'front-end-pm' ) ),
 			'maximum'	=> esc_js( fep_get_option( 'attachment_no', 4 ) ),
 			'max_text'	=> esc_js( sprintf( __( 'Maximum %s allowed', 'front-end-pm' ), sprintf( _n( '%s file', '%s files', fep_get_option( 'attachment_no', 4 ), 'front-end-pm' ), number_format_i18n( fep_get_option( 'attachment_no', 4 ) ) ) ) )
 		)
 	);
-	wp_register_script( 'fep-form-submit', FEP_PLUGIN_URL . 'assets/js/form-submit.js', array( 'jquery' ), FEP_PLUGIN_VERSION, true );
+	wp_register_script( 'fep-form-submit', FEP_PLUGIN_URL . 'assets/js/form-submit.js', array( 'jquery' ), null, true );
 	wp_localize_script( 'fep-form-submit', 'fep_form_submit',
 		array(
 			'ajaxurl'      => admin_url( 'admin-ajax.php' ),
@@ -235,14 +235,14 @@ function fep_enqueue_scripts() {
 			'processing_text' => __( 'Processing... ', 'front-end-pm' ),
 		)
 	);
-	wp_register_script( 'fep-block-unblock-script', FEP_PLUGIN_URL . 'assets/js/block-unblock.js', array( 'jquery' ), FEP_PLUGIN_VERSION, true );
+	wp_register_script( 'fep-block-unblock-script', FEP_PLUGIN_URL . 'assets/js/block-unblock.js', array( 'jquery' ), null, true );
 	wp_localize_script( 'fep-block-unblock-script', 'fep_block_unblock_script', array(
 			'ajaxurl'	=> admin_url( 'admin-ajax.php' ),
 			'token'		=> wp_create_nonce( 'fep-block-unblock-script' ),
 			'confirm'   => __( 'Do you really want to block %s? If you click "OK" then this user will not be able to send you any more messages.' ),
 		)
 	);
-	wp_register_script( 'fep-view-message', FEP_PLUGIN_URL . 'assets/js/view-message.js', array( 'jquery' ), FEP_PLUGIN_VERSION, true );
+	wp_register_script( 'fep-view-message', FEP_PLUGIN_URL . 'assets/js/view-message.js', array( 'jquery' ), null, true );
 	wp_localize_script( 'fep-view-message', 'fep_view_message', array(
 			'root'    => esc_url_raw( rest_url( 'front-end-pm/v1' ) ),
 			'nonce'   => wp_create_nonce( 'wp_rest' ),
@@ -250,13 +250,13 @@ function fep_enqueue_scripts() {
 			'toggle'  => apply_filters( 'fep_filter_message_toggle_feature', true ),
 		)
 	);
-	wp_register_script( 'fep-cb-check-uncheck-all', FEP_PLUGIN_URL . 'assets/js/check-uncheck-all.js', array( 'jquery' ), FEP_PLUGIN_VERSION, true );
+	wp_register_script( 'fep-cb-check-uncheck-all', FEP_PLUGIN_URL . 'assets/js/check-uncheck-all.js', array( 'jquery' ), null, true );
 }
 
 function fep_common_scripts() {
 	wp_register_style( 'fep-tokeninput-style', FEP_PLUGIN_URL . 'assets/css/token-input-facebook.css' );
 	wp_register_script( 'fep-tokeninput-script', FEP_PLUGIN_URL . 'assets/js/jquery.tokeninput.js', array( 'jquery' ), '6.1', true );
-	wp_register_script( 'fep-tokeninput', FEP_PLUGIN_URL . 'assets/js/fep-tokeninput.js', array( 'fep-tokeninput-script' ), FEP_PLUGIN_VERSION, true );
+	wp_register_script( 'fep-tokeninput', FEP_PLUGIN_URL . 'assets/js/fep-tokeninput.js', array( 'fep-tokeninput-script' ), null, true );
 }
 
 function fep_tokeninput_localize( $args ) {

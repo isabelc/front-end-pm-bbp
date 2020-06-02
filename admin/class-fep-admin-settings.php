@@ -37,7 +37,7 @@ class Fep_Admin_Settings {
 			wp_enqueue_style( 'wp-color-picker' );
 			wp_enqueue_script( 'wp-color-picker' );
 		}
-		wp_enqueue_script( 'fep-admin', FEP_PLUGIN_URL . 'assets/js/admin.js', array( 'jquery' ), FEP_PLUGIN_VERSION, true );
+		wp_enqueue_script( 'fep-admin', FEP_PLUGIN_URL . 'assets/js/admin.js', array( 'jquery' ), null, true );
 		wp_localize_script( 'fep-admin', 'fep_admin',
 			array(
 				'token'       => wp_create_nonce( 'fep-admin' ),

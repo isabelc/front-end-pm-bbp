@@ -26,7 +26,7 @@ class Fep_Update {
 	}
 	
 	function fep_update_script() {
-		wp_register_script( 'fep_update_script', FEP_PLUGIN_URL . 'assets/js/fep_update_script.js', array( 'jquery' ), FEP_PLUGIN_VERSION, true );
+		wp_register_script( 'fep_update_script', FEP_PLUGIN_URL . 'assets/js/fep_update_script.js', array( 'jquery' ), null, true );
 	}
 	
 	function admin_menu(){
@@ -86,9 +86,7 @@ class Fep_Update {
 			return;
 		}
 		$prev_ver = fep_get_option( 'plugin_version', '3.3' );
-		if ( version_compare( $prev_ver, FEP_PLUGIN_VERSION, '=' ) && apply_filters( 'fep_update_enable_version_check', true ) ) {
-			return;
-		}
+
 		$require = false;
 
 		if ( version_compare( $prev_ver, '10.1.1', '<' ) ) {
