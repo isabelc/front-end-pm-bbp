@@ -18,7 +18,6 @@ class Fep_Admin_Settings {
 		add_action( 'admin_menu', array( $this, 'addAdminPage' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
 		add_action( 'admin_init', array( $this, 'settings_output' ) );
-		add_action( 'admin_notices', array( $this, 'notice_review' ) );
 		add_action( 'add_option_FEP_admin_options', array( $this, 'after_option_save' ), 99 );
 		add_action( 'update_option_FEP_admin_options', array( $this, 'after_option_save' ), 99 );
 		add_action( 'fep_action_after_admin_options_save', array( $this, 'recalculate_user_message_count' ), 10, 2 );
@@ -741,35 +740,6 @@ class Fep_Admin_Settings {
 				</div>
 			</div><!-- .inside -->
 		</div><!-- .postbox -->';
-	}
-
-	/**
-	 * Admin notices for review
-	 *
-	 * @access	public
-	 * @return	void
-	 */
-	public function notice_review() {
-		if ( ! current_user_can( 'manage_options' ) ) {
-			return;
-		}
-		if ( fep_get_option( 'dismissed-review' ) ) {
-			return;
-		}
-		$dismissed_time = get_user_meta( get_current_user_id(), 'fep_review_notice_dismiss', true );
-		if ( $dismissed_time && time() < ( $dismissed_time + WEEK_IN_SECONDS ) ) {
-			return;
-		}
-		?>
-		<div class="notice notice-info inline fep-review-notice">
-			<p><?php printf( __( 'Like %s plugin? Please consider review in WordPress.org and give 5&#9733; rating.', 'front-end-pm' ), 'Front End PM' ); ?></p>
-			<p>
-				<a href="https://wordpress.org/support/plugin/front-end-pm/reviews/?filter=5#new-post" class="button button-primary fep-review-notice-dismiss" data-fep_click="sure" target="_blank" rel="noopener"><?php _e( 'Sure, deserve it', 'front-end-pm' ); ?></a>
-				<button class="button-secondary fep-review-notice-dismiss" data-fep_click="later"><?php _e( 'Maybe later', 'front-end-pm' ); ?></button>
-				<button class="button-secondary fep-review-notice-dismiss" data-fep_click="did"><?php _e( 'Already did', 'front-end-pm' ); ?></button>
-			</p>
-		</div>
-		<?php
 	}
 	function set_page_id( $id, $post ) {
 		if ( ! fep_get_option( 'page_id' ) && false !== strpos( $post->post_content, '[front-end-pm' ) ) {
