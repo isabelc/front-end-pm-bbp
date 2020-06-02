@@ -21,7 +21,6 @@ class Fep_Admin_Settings {
 		add_action( 'add_option_FEP_admin_options', array( $this, 'after_option_save' ), 99 );
 		add_action( 'update_option_FEP_admin_options', array( $this, 'after_option_save' ), 99 );
 		add_action( 'fep_action_after_admin_options_save', array( $this, 'recalculate_user_message_count' ), 10, 2 );
-		add_action( 'publish_page', array( $this, 'set_page_id' ), 10, 2 );
 	}
 
 	function addAdminPage() {
@@ -740,11 +739,6 @@ class Fep_Admin_Settings {
 				</div>
 			</div><!-- .inside -->
 		</div><!-- .postbox -->';
-	}
-	function set_page_id( $id, $post ) {
-		if ( ! fep_get_option( 'page_id' ) && false !== strpos( $post->post_content, '[front-end-pm' ) ) {
-			fep_update_option( 'page_id', $id );
-		}
 	}
 } //END CLASS
 add_action( 'init', array(Fep_Admin_Settings::init(), 'actions_filters' ) );
