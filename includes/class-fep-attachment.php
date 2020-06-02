@@ -93,29 +93,6 @@ class Fep_Attachment {
 	}
 
 	function upload_dir( $upload ) {
-		if( is_multisite() ){
-			$siteurl = get_option( 'siteurl' );
-			$upload_path = trim( get_option( 'upload_path' ) );
-		 
-			if ( empty( $upload_path ) || 'wp-content/uploads' == $upload_path ) {
-				$dir = WP_CONTENT_DIR . '/uploads';
-			} elseif ( 0 !== strpos( $upload_path, ABSPATH ) ) {
-				// $dir is absolute, $upload_path is (maybe) relative to ABSPATH
-				$dir = path_join( ABSPATH, $upload_path );
-			} else {
-				$dir = $upload_path;
-			}
-		 
-			if ( !$url = get_option( 'upload_url_path' ) ) {
-				if ( empty($upload_path) || ( 'wp-content/uploads' == $upload_path ) || ( $upload_path == $dir ) )
-					$url = WP_CONTENT_URL . '/uploads';
-				else
-					$url = trailingslashit( $siteurl ) . $upload_path;
-			}
-			$upload['basedir'] = $dir;
-			$upload['baseurl'] = $url;
-		}
-		
 		$upload['subdir']	= '/front-end-pm' . $upload['subdir'];
 		$upload['path']		= $upload['basedir'] . $upload['subdir'];
 		$upload['url']		= $upload['baseurl'] . $upload['subdir'];

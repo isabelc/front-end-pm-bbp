@@ -31,8 +31,6 @@ class Front_End_Pm {
 
 	function constants() {
 		global $wpdb;
-		define( 'FEP_DB_VERSION', '1121' );
-		define( 'FEP_PLUGIN_FILE', __FILE__ );
 		define( 'FEP_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 		define( 'FEP_PLUGIN_URL', plugins_url( '/', __FILE__ ) );
 
@@ -51,9 +49,13 @@ class Front_End_Pm {
 	}
 
 	function includes() {
-		require_once( FEP_PLUGIN_DIR . 'functions.php' );
-		require_once( FEP_PLUGIN_DIR . 'default-hooks.php' );
+		require_once FEP_PLUGIN_DIR . 'functions.php';
+		require_once FEP_PLUGIN_DIR . 'default-hooks.php';
 	}
 
 } //END Class
 Front_End_Pm::init();
+function fep_installer(){
+    include 'installer.php';
+}
+register_activation_hook(__file__, 'fep_installer');

@@ -8,89 +8,6 @@ function fep_register_metadata_table(){
 	$wpdb->fep_messagemeta = FEP_META_TABLE;
 	$wpdb->fep_messages    = FEP_MESSAGE_TABLE;
 }
-
-function fep_create_database(){
-	global $wpdb;
-	if ( is_multisite() ) {
-		$installed_ver = get_site_option( 'fep_db_version' );
-	} else {
-		$installed_ver = get_option( 'fep_db_version' );
-	}
-	
-	if ( version_compare( $installed_ver, '1011', '<' ) && $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', FEP_MESSAGE_TABLE ) ) && $wpdb->get_var( $wpdb->prepare( 'SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = %s AND TABLE_NAME = %s AND COLUMN_NAME = %s', DB_NAME, FEP_MESSAGE_TABLE, 'id' ) ) ) {
-		if ( ! $wpdb->get_var( 'SELECT COUNT(*) FROM ' . FEP_MESSAGE_TABLE . ' WHERE id IS NOT NULL LIMIT 1' ) ) {
-			$wpdb->query( 'DROP TABLE IF EXISTS ' . FEP_MESSAGE_TABLE );
-			$wpdb->query( 'DROP TABLE IF EXISTS ' . $wpdb->prefix . 'fep_meta' );
-		} else {
-			$wpdb->query( sprintf( 'ALTER TABLE %1$s RENAME %1$s_old', FEP_MESSAGE_TABLE ) );
-		}
-	}
-	if ( version_compare( $installed_ver, FEP_DB_VERSION, '!=' ) ) {
-		$charset_collate = $wpdb->get_charset_collate();
-
-		$sql_message = "CREATE TABLE $wpdb->fep_messages (
-			mgs_id bigint(20) unsigned NOT NULL auto_increment,
-			mgs_parent bigint(20) unsigned NOT NULL default '0',
-			mgs_author bigint(20) unsigned NOT NULL default '0',
-			mgs_created datetime NOT NULL default '0000-00-00 00:00:00',
-			mgs_title text NOT NULL,
-			mgs_content mediumtext NOT NULL,
-			mgs_type varchar(20) NOT NULL DEFAULT 'message',
-			mgs_status varchar(20) NOT NULL DEFAULT 'pending',
-			mgs_last_reply_by bigint(20) unsigned NOT NULL default '0',
-			mgs_last_reply_time datetime NOT NULL default '0000-00-00 00:00:00',
-			mgs_last_reply_excerpt varchar(255) NOT NULL DEFAULT '',
-			PRIMARY KEY  (mgs_id),
-			KEY mgs_parent_last_time (mgs_parent,mgs_last_reply_time),
-			KEY mgs_type_created (mgs_type,mgs_created)
-		) $charset_collate;";
-		
-		$sql_perticipiants = "CREATE TABLE " . FEP_PARTICIPANT_TABLE . " (
-			per_id bigint(20) unsigned NOT NULL auto_increment,
-			mgs_id bigint(20) unsigned NOT NULL default '0',
-			mgs_participant bigint(20) unsigned NOT NULL default '0',
-			mgs_read bigint(20) unsigned NOT NULL default '0',
-			mgs_parent_read bigint(20) unsigned NOT NULL default '0',
-			mgs_deleted bigint(20) unsigned NOT NULL default '0',
-			mgs_archived bigint(20) unsigned NOT NULL default '0',
-			PRIMARY KEY  (per_id),
-			UNIQUE KEY mgs_id_participant (mgs_id,mgs_participant)
-		) $charset_collate;";
-		
-		$sql_meta = "CREATE TABLE $wpdb->fep_messagemeta (
-			meta_id bigint(20) unsigned NOT NULL auto_increment,
-			fep_message_id bigint(20) unsigned NOT NULL default '0',
-			meta_key varchar(255) default NULL,
-			meta_value longtext,
-			PRIMARY KEY  (meta_id),
-			KEY fep_message_id (fep_message_id),
-			KEY meta_key (meta_key(191))
-		) $charset_collate;";
-		
-		$sql_attachments = "CREATE TABLE " . FEP_ATTACHMENT_TABLE . " (
-			att_id bigint(20) unsigned NOT NULL auto_increment,
-			mgs_id bigint(20) unsigned NOT NULL default '0',
-			att_mime varchar(100) NOT NULL default '',
-			att_file varchar(255) NOT NULL default '',
-			att_status varchar(20) NOT NULL default '',
-			PRIMARY KEY  (att_id),
-			KEY mgs_id (mgs_id)
-		) $charset_collate;";
-
-		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-		dbDelta( $sql_message );
-		dbDelta( $sql_perticipiants );
-		dbDelta( $sql_meta );
-		dbDelta( $sql_attachments );
-
-		if ( is_multisite() ) {
-			update_site_option( 'fep_db_version', FEP_DB_VERSION );
-		} else {
-			update_option( 'fep_db_version', FEP_DB_VERSION, true );
-		}
-	}
-}
-
 function fep_include_require_files() {
 	require_once( FEP_PLUGIN_DIR . 'includes/class-fep-cache.php' );
 	require_once( FEP_PLUGIN_DIR . 'includes/class-fep-message.php' );
@@ -120,7 +37,6 @@ function fep_include_require_files() {
 		$fep_files['attachment-table'] 	= FEP_PLUGIN_DIR . 'admin/class-fep-attachments-list-table.php';
 		$fep_files['admin-pages'] 		= FEP_PLUGIN_DIR . 'admin/class-fep-admin-pages.php';
 		$fep_files['settings'] 			= FEP_PLUGIN_DIR . 'admin/class-fep-admin-settings.php';
-		$fep_files['update'] 			= FEP_PLUGIN_DIR . 'admin/class-fep-update.php';
 	}
 	$fep_files = apply_filters( 'fep_include_files', $fep_files );
 	foreach ( $fep_files as $fep_file ) {
