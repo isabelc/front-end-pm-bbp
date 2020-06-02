@@ -19,7 +19,6 @@ class Fep_Admin_Settings {
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
 		add_action( 'admin_init', array( $this, 'settings_output' ) );
 		add_action( 'admin_notices', array( $this, 'notice_review' ) );
-		add_filter( 'plugin_action_links_' . plugin_basename( FEP_PLUGIN_FILE ), array( $this, 'add_settings_link' ) );
 		add_action( 'add_option_FEP_admin_options', array( $this, 'after_option_save' ), 99 );
 		add_action( 'update_option_FEP_admin_options', array( $this, 'after_option_save' ), 99 );
 		add_action( 'fep_action_after_admin_options_save', array( $this, 'recalculate_user_message_count' ), 10, 2 );
@@ -775,14 +774,6 @@ class Fep_Admin_Settings {
 		</div>
 		<?php
 	}
-
-	function add_settings_link( $links ) {
-		//add settings link in plugins page
-		$settings_link = '<a href="' . admin_url( 'admin.php?page=fep_settings' ) . '">' . __( 'Settings', 'front-end-pm' ) . '</a>';
-		array_unshift( $links, $settings_link );
-		return $links;
-	}
-
 	function set_page_id( $id, $post ) {
 		if ( ! fep_get_option( 'page_id' ) && false !== strpos( $post->post_content, '[front-end-pm' ) ) {
 			fep_update_option( 'page_id', $id );
