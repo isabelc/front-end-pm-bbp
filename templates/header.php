@@ -5,7 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $box_class = 'fep-box-size';
 if ( $max_total && ( ( $max_total * 90 ) / 100 ) <= $total_count ) {
-	$box_class .= ' fep-font-red';
+	$box_class .= ' red';
 }
 $c = sprintf( _n( '%s unread message', '%s unread messages', $unread_count, 'front-end-pm' ), $unread_count );
 ?>

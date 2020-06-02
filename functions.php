@@ -311,7 +311,7 @@ function fep_get_new_message_button( $args = array() ) {
 		'show_bracket'	=> '1',
 		'hide_if_zero'	=> '1',
 		'ajax'			=> '1',
-		'class'			=> 'fep-font-red',
+		'class'			=> 'red',
 	) );
 	$args['class'] = fep_sanitize_html_class( $args['class'] );
 	$new           = fep_get_new_message_number();
