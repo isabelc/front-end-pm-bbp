@@ -168,10 +168,13 @@ class Fep_Form {
 		if ( ! empty( $field['class'] ) ){
 			$field['class'] = fep_sanitize_html_class( $field['class'] );
 		}
-		
+		// toggle the Attach file field
+		if('fep_upload' == $field['id']) {
+			?><div id="fep-toggle-wrap" class="fep-align-right"><span id="fep-toggle-attach"><span>&#128206;  Attach a file</span></span></div><?php
+		}
 		?>
 		<div class="fep-form-field fep-form-field-<?php echo esc_attr( $field['id'] ); ?>"><?php if ( ! empty( $field['label'] ) ) { ?>
-			<div class="fep-label"><label for="<?php echo esc_attr( $field['id'] ); ?>"><?php echo esc_html( $field['label'] ) ; ?>: <?php if ( ! empty( $field['required'] ) ) : ?><span class="required">*</span><?php endif; ?></label></div>
+			<div class="fep-label"><label for="<?php echo esc_attr( $field['id'] ); ?>"><?php echo esc_html( $field['label'] ) ; ?>: </label></div>
 			<?php } ?>
 			<div class="fep-field"><?php
 			
@@ -327,10 +330,10 @@ class Fep_Form {
 					?>
 						<div id="fep_upload">
 							<div class="fep-attachment-field-div">
-								<input class="fep-attachment-field-input" type="file" name="<?php echo esc_attr( $field['name'] ); ?>[]" /><a href="#" class="fep-attachment-field-a"><?php echo __( 'Remove', 'front-end-pm' ); ?></a>
+								<input class="fep-attachment-field-input" type="file" name="<?php echo esc_attr( $field['name'] ); ?>[]" /><a href="#" class="fep-attachment-field-a">Remove</a>
 							</div>
 						</div>
-						<a id="fep-attachment-field-add" href="#"><?php echo __( 'Add more file', 'front-end-pm' ) ; ?></a>
+						<a id="fep-attachment-field-add" href="#">Add another file</a>
 						<div id="fep-attachment-note"></div>
 					<?php
 					break;
