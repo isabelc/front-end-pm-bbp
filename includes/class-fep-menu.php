@@ -68,7 +68,7 @@ class Fep_Menu {
 			);
 			$menu[ $key ] = wp_parse_args( $tab, $defaults );
 		}
-		uasort( $menu, 'fep_sort_by_priority' );// @test remove
+		uasort( $menu, 'fep_sort_by_priority' );
 		return $menu;
 	}
 
