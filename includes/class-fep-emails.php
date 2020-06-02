@@ -15,9 +15,6 @@ class Fep_Emails {
 	}
 
 	function actions_filters() {
-		if ( isset( $_POST['action'] ) && 'fep_update_ajax' == $_POST['action'] ) {
-			return;
-		}
 		if ( true != apply_filters( 'fep_enable_email_send', true ) ) {
 			return;
 		}

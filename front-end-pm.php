@@ -31,7 +31,6 @@ class Front_End_Pm {
 
 	function constants() {
 		global $wpdb;
-		define( 'FEP_PLUGIN_VERSION', '11.2.3' );
 		define( 'FEP_DB_VERSION', '1121' );
 		define( 'FEP_PLUGIN_FILE', __FILE__ );
 		define( 'FEP_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );

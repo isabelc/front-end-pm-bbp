@@ -130,18 +130,9 @@ function fep_include_require_files() {
 
 function fep_get_option( $option, $default = '', $section = 'FEP_admin_options' ) {
 	$options = get_option( $section );
-	if ( ! is_array( $options ) ) {
-		$options = array();
-	}
-	
-	$is_default = false;
-	if ( isset( $options[ $option ] ) ) {
-		$value = $options[ $option ];
-	} else {
-		$value = $default;
-		$is_default = true;
-	}
-	return apply_filters( 'fep_get_option', $value, $option, $default, $is_default );
+	if ( ! is_array( $options ) ) $options = array();
+	if ( isset( $options[ $option ] ) ) return $options[ $option ];
+	else return $default;
 }
 
 function fep_update_option( $option, $value = '', $section = 'FEP_admin_options' ) {
