@@ -28,16 +28,6 @@ jQuery( document ).ready( function( $ ) {
 		}
 	});
 
-	$( document ).on( 'click', '.fep-review-notice .fep-review-notice-dismiss', function( e ) {
-		var fep_click = $( this ).data( 'fep_click' );
-		$( this ).parent().parent().remove();
-		var data = {
-			action: 'fep_review_notice_dismiss',
-			fep_click: fep_click
-		};
-		$.post( ajaxurl, data );
-	});
-
 	// Uploading files
 	var file_frame;
 
