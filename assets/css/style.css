@@ -46,9 +46,13 @@
 }
 
 #fep-content a {
-	/* color: navy; */
+	color: #006eb0;
+}
+#fep-box-content-content .fep-strong a {
+ 
 	text-decoration: underline;
 }
+
 
 #fep-content .avatar {
 	-moz-border-radius: 50%;
@@ -686,7 +690,6 @@ button.fep-button{
 }
 
 .fep-toggle-attach-active {
-	/*color: #7f54b3;*/
 	border-radius: 5px;
 	border: 1px solid #000;
 		font-weight: 700;
