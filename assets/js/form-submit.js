@@ -58,6 +58,9 @@ jQuery( document ).ready( function($) {
 						}
 
 					}, 2000 );
+				} else if( 'newmessage' == $('input[name="fep_action"]', thisForm).val() ) {
+					// redirect to message box
+					response['fep_redirect'] = fep_form_submit.redirect;
 				}
 			}
 
