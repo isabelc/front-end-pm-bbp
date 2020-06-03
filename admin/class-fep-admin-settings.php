@@ -407,11 +407,7 @@ class Fep_Admin_Settings {
 			//add_settings_section( $id, $title, $callback, $page );
 			add_settings_section( $tab['section_id'], $tab['section_title'], $tab['section_callback'], $tab['section_page'] );
 			foreach ( $this->form_fields( str_replace( 'fep_settings_', '', $tab['section_id'] ) ) as $key => $field ) {
-				if ( function_exists( 'fep_settings_field_output_callback_' . $field['type'] ) ) {
-					$callback = 'fep_settings_field_output_callback_' . $field['type'];
-				} else {
-					$callback = array( $this, 'field_output' );
-				}
+				$callback = array( $this, 'field_output' );
 				//add_settings_field( $id, $title, $callback, $page, $section = 'default', $args = array() );
 				add_settings_field( $field['id'], $field['label'], $callback, $tab['section_page'], $tab['section_id'], $field );
 			}
