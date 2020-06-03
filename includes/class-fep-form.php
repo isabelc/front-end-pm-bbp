@@ -381,12 +381,12 @@ class Fep_Form {
 				break;
 			case 'token':
 				if ( ! fep_verify_nonce( $field['posted-value'], $field['token-action'] ) ) {
-					$errors->add( $field['id'], __("Invalid Token. Please try again!", 'front-end-pm' ) );
+					$errors->add( $field['id'], "Invalid Token. Please try again.");
 				}
 			break;
 			case 'wp_token':
 				if ( ! wp_verify_nonce( $field['posted-value'], $field['token-action'] ) ) {
-					$errors->add( $field['id'], __("Invalid Token. Please try again!", 'front-end-pm' ) );
+					$errors->add( $field['id'], "Invalid Token. Please try again.");
 				}
 			break;
 			case 'message_to' :

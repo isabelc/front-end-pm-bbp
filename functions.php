@@ -1087,7 +1087,7 @@ function fep_form_posted() {
 			}
 			$token = ! empty( $_POST['token'] ) ? $_POST['token'] : '';
 			if ( ! fep_verify_nonce( $token, $action ) ) {
-				fep_errors()->add( 'token', __( 'Invalid Token. Please try again!', 'front-end-pm' ) );
+				fep_errors()->add( 'token', 'Invalid Token. Please try again.');
 				break;
 			}
 			do_action( "fep_posted_bulk_{$action}", $posted_bulk_action );
