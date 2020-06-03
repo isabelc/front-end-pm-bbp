@@ -408,21 +408,21 @@ class Fep_Form {
 					if( $to && get_current_user_id() != $to) {
 						$_POST['message_to_id'][] = $to;
 						if ( ! fep_current_user_can( 'send_new_message_to', $to ) ) {
-							$errors->add( $field['id'] .'-permission' , sprintf(__("%s does not want to receive messages!", 'front-end-pm' ), fep_user_name( $to ) ) );
+							$errors->add( $field['id'] .'-permission' , sprintf("%s does not want to receive messages.", fep_user_name( $to ) ) );
 						}
 					} else {
 						$errors->add( $field['id'] , sprintf(__( 'Invalid receiver "%s".', 'front-end-pm' ), $pre ) );
 					}
 				}
 				if ( empty( $_POST['message_to_id'] ) ) {
-					$errors->add( $field['id'] , __( 'You must enter a valid recipient!', 'front-end-pm' ) );
+					$errors->add($field['id'] , 'You must enter a valid recipient.');
 				}
 				break;
 			case 'fep_parent_id' :
 				 if ( empty( $field['posted-value'] ) || ! is_numeric( $field['posted-value'] ) || fep_get_parent_id( $field['posted-value'] ) != $field['posted-value'] ) {
-					$errors->add( $field['id'] , __("Invalid parent ID!", 'front-end-pm' ) );
+					$errors->add( $field['id'] , "Invalid parent ID." );
 				 } elseif ( ! fep_current_user_can( 'send_reply', $field['posted-value'] ) ) {
-					$errors->add( $field['id'] , __("You do not have permission to send this message!", 'front-end-pm' ) );
+					$errors->add($field['id'] , "You do not have permission to send this message.");
 				}
 				break;
 			case "checkbox" :
