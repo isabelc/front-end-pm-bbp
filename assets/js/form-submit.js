@@ -49,11 +49,20 @@ jQuery( document ).ready( function($) {
 				if( 'reply' == $('input[name="fep_action"]', thisForm).val() ) {
 					setTimeout( function(){
 						$( '#fep-content-single-sidebar .fep-message-head-active' ).trigger('click');
+	
+						// clear the text from the editor
+						if ( window.wpActiveEditor ) {
+						  tinyMCE.activeEditor.setContent(''); 
+						} else if( document.getElementById('message_content') ) {
+							document.getElementById("message_content").value = '';
+						}
+
 					}, 2000 );
 				}
 			}
+
 			$( document ).trigger( 'fep_form_submit_done', [ response, thisForm ] );
-			
+
 			if( 'location_reload' ==  response['fep_redirect'] ){
 				window.location.reload();
 			} else if( response['fep_redirect'] ) {
