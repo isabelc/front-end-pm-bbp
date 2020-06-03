@@ -38,27 +38,29 @@ class Fep_Emails {
 
 			$stylefont = "font-family:Arial,\"Helvetica Neue\",Helvetica,sans-serif;";
 
-			$stylealign = "width:600px;max-width:90%;margin-left:auto;margin-right:auto;border:1px solid #ececec;";
+			$stylealign = "width:600px;max-width:99%;margin-left:auto;margin-right:auto;";
 
-			$pstyle = " style='width:500px;max-width:100%;" . $stylefont . "font-size:16px;color:#444;line-height:1.6'";
-
-			$message  = "<div style='background:#f2f6f7;padding:24px;'>" .
+			$pstyle = "width:500px;max-width:100%;" . $stylefont . "font-size:16px;color:#444;line-height:1.6;";
+ 
+			
+			$message  = "<div style='background:#f2f6f7;padding:24px;box-sizing:border-box;'>" .
+						"<div style='text-align:center;margin-bottom:8px;'>" . get_custom_logo() . "</div>" .
 						"<div style='" . $stylealign . $stylefont .
-						"font-size:16px;color:#444;line-height:1.6;background-color: #ffffff;padding:0 24px;'>" .
-						"<div style='text-align:center'>" . get_custom_logo() . "</div>" .
-						"<p $pstyle>You have received a new message at " . get_bloginfo( 'name' ) . '.</p>' .
-						'<p $pstyle>From: <strong>' . fep_user_name( $mgs->mgs_author ) . '</strong><br>' .
+						"font-size:16px;color:#444;line-height:1.6;background-color:#ffffff;border:1px solid #ececec;padding:0 10px;text-align:left;box-sizing:border-box;'>" .
+						"<p style='{$pstyle}padding:16px 0 0;'>You have received a new message at " . get_bloginfo( 'name' ) . '.</p>' .
+
+						"<p style='{$pstyle}'>From: <strong>" . fep_user_name( $mgs->mgs_author ) . '</strong><br>' .
 						'Subject: <strong>' . $mgs->mgs_title . '</strong></p>' .
 						'<br>' .
-						'<a style="font-weight:700;border-radius:4px;color:#fff;background-color: #7F54B3;text-decoration:none;padding:10px 15px;white-space:nowrap;" href="' . fep_query_url('messagebox') . '">See Message</a>' .
+						'<a style="font-weight:700;border-radius:4px;color:#fff;background-color: #7F54B3;text-decoration:none;padding:10px 15px;white-space:nowrap;" href="' . fep_query_url('messagebox') . '">Go To Messages</a>' .
 						'<br><br>' .
 						'</div>' .
 						"<div style='color: #808080;" . $stylealign . $stylefont .
-						"font-size: 13px;padding:14px 24px;'>" .
+						"font-size: 12px;text-align:left;box-sizing:border-box;padding:14px 24px;'>" .
 						"You're receiving this email because you allow messages at <a href='" .	home_url() .
 						"' style='color:#7f54b3;text-decoration: underline;'>" .
 						get_bloginfo( 'name' ) .".org</a>." .
-						"<br>" .
+						"<br><br>" .
 						"Change your email preferences at " .
 						"<a style='color:#7f54b3;text-decoration:underline;' href='" . fep_query_url('settings') . "'>Message Settings</a>." .
 						"</div></div>";
