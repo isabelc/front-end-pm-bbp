@@ -128,9 +128,9 @@ function fep_enqueue_scripts() {
 	wp_register_script( 'fep-replies-show-hide', FEP_PLUGIN_URL . 'assets/js/replies-show-hide.js', array( 'jquery' ), null, true );
 	wp_register_script( 'fep-attachment-script', FEP_PLUGIN_URL . 'assets/js/attachment.js', array( 'jquery' ), null, true );
 	wp_localize_script( 'fep-attachment-script', 'fep_attachment_script', array(
-			'remove'	=> esc_js( __( 'Remove', 'front-end-pm' ) ),
+			'remove'	=> esc_js('Remove'),
 			'maximum'	=> esc_js( fep_get_option( 'attachment_no', 4 ) ),
-			'max_text'	=> esc_js( sprintf( __( 'Maximum %s allowed', 'front-end-pm' ), sprintf( _n( '%s file', '%s files', fep_get_option( 'attachment_no', 4 ), 'front-end-pm' ), number_format_i18n( fep_get_option( 'attachment_no', 4 ) ) ) ) )
+			'max_text'	=> esc_js( sprintf('Maximum %s allowed', sprintf( _n( '%s file', '%s files', fep_get_option( 'attachment_no', 4 ), 'front-end-pm' ), number_format_i18n( fep_get_option( 'attachment_no', 4 ) ) ) ) )
 		)
 	);
 	wp_register_script( 'fep-form-submit', FEP_PLUGIN_URL . 'assets/js/form-submit.js', array( 'jquery' ), null, true );
@@ -138,8 +138,9 @@ function fep_enqueue_scripts() {
 		array(
 			'ajaxurl'      => admin_url( 'admin-ajax.php' ),
 			'token'        => wp_create_nonce( 'fep-form' ),
-			'refresh_text' => __( 'Refresh this page and try again. ', 'front-end-pm' ),
-			'processing_text' => __( 'Processing... ', 'front-end-pm' ),
+			'refresh_text' => 'Refresh this page and try again. ',
+			'processing_text' => 'Processing... ',
+			'redirect' => fep_query_url_raw('messagebox')
 		)
 	);
 	wp_register_script( 'fep-block-unblock-script', FEP_PLUGIN_URL . 'assets/js/block-unblock.js', array( 'jquery' ), null, true );
@@ -199,11 +200,8 @@ function fep_action_url( $action = '', $arg = array() ) {
 	return fep_query_url( $action, $arg );
 }
 
-function fep_query_url( $action, $arg = array() ) {
-	$args = array( 'fepaction' => $action );
-	$args = array_merge( $args, $arg );
-	$url = esc_url( fep_query_url_without_esc( $action, $arg ) );
-	return apply_filters( 'fep_query_url_filter', $url, $args );
+function fep_query_url( $action = '', $arg = array() ) {
+	return esc_url( fep_query_url_without_esc( $action, $arg ) );
 }
 
 function fep_query_url_raw( $action, $arg = array() ) {
