@@ -66,9 +66,7 @@ jQuery( document ).ready( function($) {
 
 			$( document ).trigger( 'fep_form_submit_done', [ response, thisForm ] );
 
-			if( 'location_reload' ==  response['fep_redirect'] ){
-				window.location.reload();
-			} else if( response['fep_redirect'] ) {
+			if( response['fep_redirect'] ) {
 				window.location.href = response['fep_redirect'];
 			}
 		})
