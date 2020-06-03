@@ -18,7 +18,6 @@ class Fep_Form {
 		
 	function actions_filters(){
 	}
-	
 	public function form_fields( $where = 'newmessage' ){
 		$fields = array(
 			'message_to' => array(
@@ -49,11 +48,11 @@ class Fep_Form {
 				'name'					=> 'message_title',
 				'class'					=> 'input-text',
 				'priority'				=> 10,
-				'where'					=> array( 'newmessage', 'shortcode-newmessage' ),
+				'where'					=> array( 'newmessage' ),
 			),
 			'message_content' => array(
 				'label'					=> __( 'Message', 'front-end-pm' ),
-				'type'					=> ( 'shortcode-newmessage' == $where ) ? 'textarea' : fep_get_option( 'editor_type','wp_editor' ),
+				'type'					=> fep_get_option( 'editor_type','wp_editor' ),
 				//Ajax form submit creating problem with wp_editor
 				'required'				=> true,
 				'minlength'				=> 10,
@@ -61,19 +60,13 @@ class Fep_Form {
 				'placeholder'			=> '',
 				'priority'				=> 15,
 				'value'					=> '',
-				'where'					=> array( 'newmessage', 'reply', 'shortcode-newmessage' ),
-			),
-			'shortcode-message-to' => array(
-				'type'					=> 'shortcode-message-to',
-				'name'					=> 'message_to',
-				'value'					=> '',
-				'where'					=> 'shortcode-newmessage',
+				'where'					=> array( 'newmessage', 'reply' ),
 			),
 			'token' => array(
 				'type'			=> 'wp_token',
 				'value'			=> wp_create_nonce( 'fep-form' ),
 				'token-action'	=> 'fep-form',
-				'where'			=> array( 'newmessage', 'reply', 'shortcode-newmessage', 'settings' ),
+				'where'			=> array( 'newmessage', 'reply', 'settings' ),
 			),
 			'fep_parent_id' => array(
 				'type'			=> 'fep_parent_id',
@@ -98,7 +91,7 @@ class Fep_Form {
 			'fep_action' => array(
 				'type'  => 'hidden',
 				'value' => $where,
-				'where' => array( 'newmessage', 'reply', 'shortcode-newmessage', 'settings' ),
+				'where' => array( 'newmessage', 'reply', 'settings' ),
 			),
 		);
 		if ( fep_get_option( 'block_other_users', 1 ) ) {
@@ -115,10 +108,9 @@ class Fep_Form {
 				'type'        => 'file',
 				'value'    => '',
 				'priority'    => 20,
-				'where'    => array( 'newmessage', 'reply', 'shortcode-newmessage' )
+				'where'    => array( 'newmessage', 'reply' )
 			);
 		}
-		$fields = apply_filters( 'fep_form_fields', $fields, $where );
 		foreach ( $fields as $key => $field ){
 			if ( empty( $field['where'] ) ){
 				$field['where'] = array( 'newmessage' );
@@ -148,7 +140,6 @@ class Fep_Form {
 			);
 			$fields[ $key ] = wp_parse_args( $field, $defaults );
 		}
-		$fields = apply_filters( 'fep_form_fields_after_process', $fields, $where );
 		uasort( $fields, 'fep_sort_by_priority' );
 		return $fields;
 	}
@@ -305,7 +296,6 @@ class Fep_Form {
 					break;
 				case 'token' :
 				case 'wp_token' :
-				case 'shortcode-message-to' :
 					printf( '<input type="%1$s" id="%2$s" class="%3$s" name="%4$s" value="%5$s" %6$s />',
 						'hidden',
 						esc_attr( $field['id'] ),
@@ -400,7 +390,6 @@ class Fep_Form {
 				}
 			break;
 			case 'message_to' :
-			case 'shortcode-message-to' :
 				if ( ! empty( $_POST['message_to'] ) ) {
 					$preTo = $_POST['message_to'];
 				} else {

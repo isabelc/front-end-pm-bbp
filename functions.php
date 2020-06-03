@@ -1045,7 +1045,6 @@ function fep_form_posted() {
 			do_action( "fep_posted_action_{$action}" );
 			break;
 		case ( 'newmessage' == $action && ! empty( $menu['newmessage'] ) ):
-		case 'shortcode-newmessage':
 			if ( ! fep_current_user_can( 'send_new_message' ) ) {
 				fep_errors()->add('permission', 'You do not have permission to send new message.');
 				break;
