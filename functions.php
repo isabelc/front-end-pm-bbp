@@ -195,11 +195,6 @@ function fep_tokeninput_localize( $args ) {
 function fep_page_id() {
 	return (int) apply_filters( 'fep_page_id_filter', fep_get_option( 'page_id', 0 ) );
 }
-
-function fep_action_url( $action = '', $arg = array() ) {
-	return fep_query_url( $action, $arg );
-}
-
 function fep_query_url( $action = '', $arg = array() ) {
 	return esc_url( fep_query_url_without_esc( $action, $arg ) );
 }
