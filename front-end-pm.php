@@ -3,7 +3,7 @@
 Plugin Name:	Front End PM Mod
 Plugin URI:		https://www.shamimsplugins.com/contact-us/
 Description:	Front End PM is a Private Messaging system and a secure contact form to your WordPress site.This is full functioning messaging system fromfront end. The messaging is done entirely through the front-end of your site rather than the Dashboard. This is very helpful if you want to keep your users out of the Dashboard area.
-Version:		13.0.alpha-9
+Version:		13.0
 Author:			Shamim Hasan
 Author URI:		https://www.shamimsplugins.com/contact-us/
 License:		GPLv2 or later
