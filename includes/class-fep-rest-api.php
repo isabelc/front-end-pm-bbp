@@ -147,7 +147,7 @@ class FEP_REST_API {
 	}
 
 	function message_heads( $request ) {
-		isa_log('@test in rest callback message_heads');// @test if this is never used, can remove this rest route
+		error_log('@test in /front-end-pm/includes/class-fep-rest-api.php ... rest callback message_heads');// @test if this is never used, can remove this rest route
 		$response           = [];
 		$_GET['feppage']    = $request->get_param( 'feppage' );
 		$_GET['fep-filter'] = $request->get_param( 'fep_filter' ); // fep-filter not working with hyphen so use fep_filter (without hyphen).
